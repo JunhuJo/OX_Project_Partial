@@ -1,38 +1,70 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManageMent : MonoBehaviour
 {
-    [SerializeField] private OXZoneTrigger ZoneTrigger;
+    [SerializeField] private GameObject O_Zone;
+    [SerializeField] private GameObject X_Zone;
     [SerializeField] private GameObject Wall;
     [SerializeField] private Text pointText;
+    //[SerializeField] private GameObject counDownText_obj;
     [SerializeField] private Text countDownText;
 
-    private bool SetContDown = false;
+    [SerializeField] private bool SetContDown = false;
 
+    private bool TrueFalse = false;
     public int GetPoint = 0;
 
-    void Update()
+
+    private void OnEnable()
     {
         StartCoroutine(CountDown());
     }
 
+    private void Start()
+    {
+        StartCountDown();
+        ViewPoint();
+    }
+
+    //void Update()
+    //{
+    //    
+    //}
+
+    private void ViewPoint()
+    {
+        pointText.text = $"{GetPoint}";
+    }
+
+    private void StartCountDown()
+    {
+        if (SetContDown == true)
+        {
+            countDownText.enabled = true;
+        }
+        else if(SetContDown == false)
+        {
+            Wall.gameObject.SetActive(true);
+
+            X_Zone.gameObject.SetActive(true);
+            O_Zone.gameObject.SetActive(true);
+
+            countDownText.enabled = false;
+        }
+    }
     IEnumerator CountDown()
     { 
-        if(SetContDown == true)
+        for (int i = 4; i < 5; i--)
         {
-            countDownText.text = "5";
+            countDownText.text = $"{i+1}";
+            Debug.Log($"Ä«¿îÆ® : {i+1}");
             yield return new WaitForSeconds(1);
-            countDownText.text = "4";
-            yield return new WaitForSeconds(1);
-            countDownText.text = "3";
-            yield return new WaitForSeconds(1);
-            countDownText.text = "2";
-            yield return new WaitForSeconds(1);
-            countDownText.text = "1";
-            yield return new WaitForSeconds(1);
-            Wall.gameObject.SetActive(true);    
+            if (i <= 0) break;
         }
+        countDownText.text = "Time Over";
+        SetContDown = false;
     }
 }

@@ -11,13 +11,12 @@ public class OXZoneTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Success = true;
-            gameManageMent.GetPoint += 1;
-            Invoke("CloseSuccess", 2.0f);
+            if (Success)
+            {
+                gameManageMent.GetPoint += 1;
+                gameObject.SetActive(false);
+                Success = false;
+            }
         }
-    }
-
-    private void CloseSuccess()
-    {
-        Success = false;
     }
 }
