@@ -55,6 +55,12 @@ public class GameManageMent : MonoBehaviour
         }
     }
 
+    private void Verification()
+    {
+
+
+    }
+
     private void ViewPoint()
     {
         pointText.text = $"{GetPoint}";
