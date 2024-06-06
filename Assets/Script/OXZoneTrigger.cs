@@ -10,11 +10,11 @@ public class OXZoneTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && this.gameObject.name == "O_Zone")
         {
-            gameManageMent.Value = 1;
+            gameManageMent.QustionValue = 1;
         }
         else if (other.gameObject.CompareTag("Player") && this.gameObject.name == "X_Zone")
         {
-            gameManageMent.Value = 2;
+            gameManageMent.QustionValue = 2;
         }
     }
 }
