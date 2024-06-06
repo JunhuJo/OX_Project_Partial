@@ -1,25 +1,22 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
     [SerializeField] private GameManageMent GameManageMent;
-    private Text countDownText;
+    [SerializeField] private Text countDownText;
 
-    private void Awake()
-    {
-        countDownText = GetComponent<Text>();
-    }
 
     void OnEnable()
     {
-        Count();
+        StartCoroutine(Count());
     }
-
     IEnumerator Count()
     {
-        if(GameManageMent.SetCountDown == true)
+        
+        if(GameManageMent.SetCountDown)
         {
             for (int i = 4; i < 5; i--)
             {
@@ -29,7 +26,10 @@ public class CountDown : MonoBehaviour
                 if (i <= 0) break;
             }
             countDownText.text = "Time Over";
-            countDownText.enabled = false;
+            GameManageMent.SetCountDown = false;
+            yield return new WaitForSeconds(0.5f);
+            countDownText.text = " ";
+            
         }
     }
 }

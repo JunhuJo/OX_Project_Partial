@@ -3,20 +3,18 @@ using UnityEngine;
 public class OXZoneTrigger : MonoBehaviour
 {
     [SerializeField] GameManageMent gameManageMent;
-    private bool Success = false;
-
+    [SerializeField] Question question;
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && this.gameObject.name == "O_Zone")
         {
-            Success = true;
-            if (Success)
-            {
-                gameManageMent.GetPoint += 1;
-                gameObject.SetActive(false);
-                Success = false;
-            }
+            gameManageMent.Value = 1;
+        }
+        else if (other.gameObject.CompareTag("Player") && this.gameObject.name == "X_Zone")
+        {
+            gameManageMent.Value = 2;
         }
     }
 }
