@@ -13,6 +13,7 @@ public class NetSpawnedObject : NetworkBehaviour
 
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
+    public float _moveSpeed = 4.0f;
 
     private void Update()
     {
@@ -33,6 +34,8 @@ public class NetSpawnedObject : NetworkBehaviour
     {
         if (isLocalPlayer == false)
             return;
+        
+        
 
         // 회전
         float horizontal = Input.GetAxis("Horizontal");
@@ -41,12 +44,21 @@ public class NetSpawnedObject : NetworkBehaviour
         // 이동
         float vertical = Input.GetAxis("Vertical");
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-        NavAgent_Player.Move(forward * Mathf.Max(vertical, 0) * NavAgent_Player.speed * Time.deltaTime);
+        NavAgent_Player.Move(forward * Mathf.Max(vertical, 0) * NavAgent_Player.speed * _moveSpeed * Time.deltaTime);
+
+        if (horizontal != 0 || vertical != 0)
+        {
+            Animator_Player.SetBool("isRun", true);
+        }
+        else 
+        {
+            Animator_Player.SetBool("isRun", false);
+        }
         //Animator_Player.SetBool("Moving", NavAgent_Player.velocity != Vector3.zero);
 
         //RotateLocalPlayer();
     }
-    //마우스 보는 방향으로 회전
+    //마우스 보는 방향으로 회전(이건안씀)
     void RotateLocalPlayer()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -17,46 +17,91 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Text ServerName_Text;
     [SerializeField] private GameObject InGameHostExitBtn;
     [SerializeField] private GameObject InGameClientExitBtn;
+    [SerializeField] private GameObject GameStart_Btn;
 
+    
 
-    private void Start()
-    {
-        serverLoginButton.onClick.AddListener(OnLoginButtonClicked);
-        clientLoginButton.onClick.AddListener(OnLoginButtonClicked);
-    }
+    //private void Start()
+    //{
+    //    //serverLoginButton.onClick.AddListener(OnLoginButtonClicked);
+    //    //clientLoginButton.onClick.AddListener(OnLoginButtonClicked);
+    //    
+    //}
 
-    private void OnLoginButtonClicked()
+    public void OnClick_StartServer()
     {
         string username = usernameInput.text;
         string serverAddress = serverAddressInput.text;
-
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
         {
             //서버 입장 화면
-            PlayerPrefs.SetString("ServerStart_Btn", username);
+            //PlayerPrefs.SetString("ServerStart_Btn", username);
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server : {serverAddress}";
             networkManager.StartHost();
             loginWindow.gameObject.SetActive(false);
-            
+
             //서버 입장 후 인게임 처리
             ServerName_Obj.gameObject.SetActive(true);
             InGameHostExitBtn.gameObject.SetActive(true);
+            GameStart_Btn.gameObject.SetActive(true);
         }
-        else if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
+    }
+
+    public void OnClick_StartClient() 
+    {
+        string username = usernameInput.text;
+        string serverAddress = serverAddressInput.text;
+        if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
         {
             //
-            PlayerPrefs.SetString("ClientStart_Btn", username);
+            //PlayerPrefs.SetString("ClientStart_Btn", username);
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server_Name : {serverAddress}";
             networkManager.StartClient();
             loginWindow.gameObject.SetActive(false);
-            
+
             //
             ServerName_Obj.gameObject.SetActive(true);
             InGameClientExitBtn.gameObject.SetActive(true);
         }
     }
+
+    //private void OnLoginButtonClicked()
+    //{
+    //    string username = usernameInput.text;
+    //    string serverAddress = serverAddressInput.text;
+    //
+    //    if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
+    //    {
+    //        //서버 입장 화면
+    //        PlayerPrefs.SetString("ServerStart_Btn", username);
+    //        networkManager.networkAddress = serverAddress;
+    //        ServerName_Text.text = $"Server : {serverAddress}";
+    //        networkManager.StartHost();
+    //        loginWindow.gameObject.SetActive(false);
+    //        
+    //        //서버 입장 후 인게임 처리
+    //        ServerName_Obj.gameObject.SetActive(true);
+    //        InGameHostExitBtn.gameObject.SetActive(true);
+    //        GameStart_Btn.gameObject.SetActive(true);
+    //
+    //
+    //    }
+    //    else if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
+    //    {
+    //        //
+    //        PlayerPrefs.SetString("ClientStart_Btn", username);
+    //        networkManager.networkAddress = serverAddress;
+    //        ServerName_Text.text = $"Server_Name : {serverAddress}";
+    //        networkManager.StartClient();
+    //        loginWindow.gameObject.SetActive(false);
+    //        
+    //        //
+    //        ServerName_Obj.gameObject.SetActive(true);
+    //        InGameClientExitBtn.gameObject.SetActive(true);
+    //    }
+    //}
 
     public void StopHost()
     {

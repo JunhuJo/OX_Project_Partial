@@ -125,6 +125,6 @@ public class GameManageMent : MonoBehaviour
 
     private void ViewPoint()
     {
-        pointText.text = $"맞춘 문제 : {GetPoint}";
+        pointText.text = $"점수 : {GetPoint}";
     }
 }
