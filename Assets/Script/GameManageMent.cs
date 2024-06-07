@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManageMent : MonoBehaviour
+public class GameManageMent : NetworkBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject O_Zone;
@@ -63,11 +64,12 @@ public class GameManageMent : MonoBehaviour
 
     public void OnClick_GameStart()
     {
+       
         GameStartBtn.gameObject.SetActive(false);
         StartGames = true;
     }
 
-    private void StartCountDown()
+    public void StartCountDown()
     {
         //게임 시작
         if (setCountDown == true)
@@ -77,8 +79,9 @@ public class GameManageMent : MonoBehaviour
         else if (StartGames == true)
         {
             StartCount.enabled = true;
+            
         }
-
+    
         //게임 라운드 종료
         if (setCountDown == false && CountDown_Text.text == "Time Over")
         {
@@ -94,11 +97,56 @@ public class GameManageMent : MonoBehaviour
         }
     }
 
+    
     private void RandQuestion()
     {
         Rand = Random.Range(0, QuestionBox.Length);
     }
 
+    //[Server]
+    //public void StartCountdown()
+    //{
+    //    StartCoroutine(Count());
+    //}
+    //
+    //
+    //[Server]
+    //IEnumerator Count()
+    //{
+    //    if (StartGames)
+    //    {
+    //        StartGames = true;
+    //        for (int i = 4; i >= 0; i--)
+    //        {
+    //            RpcUpdateCount(i + 1);
+    //            Debug.Log($"시작 카운트(서버) : {i + 1}");
+    //            yield return new WaitForSeconds(1);
+    //        }
+    //        RpcUpdateCount(-1); // 게임 시작 메시지 전송
+    //        StartGames = false;
+    //    }
+    //}
+    //
+    //[ClientRpc]
+    //void RpcUpdateCount(int count)
+    //{
+    //    if (count > 0)
+    //    {
+    //        GameStart_Text.text = $"{count}";
+    //    }
+    //    else if (count == -1)
+    //    {
+    //        GameStart_Text.text = "게임 시작(서버)!@!";
+    //        Invoke(nameof(ClearText), 1);
+    //        Wave = true;
+    //    }
+    //}
+    
+    void ClearText()
+    {
+        GameStart_Text.text = "";
+    }
+    
     IEnumerator GameWave()
     {
         QuestionBox[Rand].SetActive(true);
@@ -107,16 +155,8 @@ public class GameManageMent : MonoBehaviour
         
         Debug.Log("10초 시작");
         setCountDown = true;
+        
     }
-    //private void GameWave()
-    //{
-    //    
-    //}
-
-   //private void SetStartWave()
-   //{
-   //    
-   //}
 
     private void Verification()
     {

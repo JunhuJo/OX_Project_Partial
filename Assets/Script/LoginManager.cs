@@ -19,13 +19,21 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private GameObject InGameClientExitBtn;
     [SerializeField] private GameObject GameStart_Btn;
 
-    
+    //[SerializeField] private GameManageMent gameManagement;
 
     //private void Start()
     //{
     //    //serverLoginButton.onClick.AddListener(OnLoginButtonClicked);
     //    //clientLoginButton.onClick.AddListener(OnLoginButtonClicked);
-    //    
+    //    //GameStart_Btn.GetComponent<Button>().onClick.AddListener(OnClick_GameStart);
+    //}
+
+    //public void OnClick_GameStart()
+    //{
+    //    if (gameManagement != null)
+    //    {
+    //        gameManagement.OnClick_GameStart();
+    //    }
     //}
 
     public void OnClick_StartServer()
