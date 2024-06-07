@@ -44,25 +44,17 @@ public class GameManageMent : NetworkBehaviour
     private void Start()
     {
         CreateQuestion();
-        RandQuestion();
+        RandQuestion(QuestionBox.Length);
     }
 
     private void Update()
     {
-
         StartCountDown();
-       
-        if (Wave && isClient)
+        
+        if (Wave) 
         {
             StartCoroutine(GameWave());
         }
-
-        //StartCountDown();
-        //
-        //if (Wave) 
-        //{
-        //    StartCoroutine(GameWave());
-        //}
     }
     
     private void CreateQuestion()
@@ -80,9 +72,21 @@ public class GameManageMent : NetworkBehaviour
       
         GameStartBtn.gameObject.SetActive(false);
         StartGames = true; // 게임 시작을 서버에서 처리합니다.
-       
+        ReceiveGameStart(StartGames);
         //GameStartBtn.gameObject.SetActive(false);
         //StartGames = true;
+    }
+
+    [Command]
+    private void GameStart(bool GameStart)
+    {
+        ReceiveGameStart(GameStart);
+    }
+
+    [ClientRpc]
+    private void ReceiveGameStart(bool GameStart)
+    {
+        StartGames = GameStart;
     }
 
     public void StartCountDown()
@@ -95,6 +99,7 @@ public class GameManageMent : NetworkBehaviour
         else if (StartGames == true)
         {
             StartCount.enabled = true;
+            StartGame(StartCount.enabled);
         }
     
         //게임 라운드 종료
@@ -113,12 +118,32 @@ public class GameManageMent : NetworkBehaviour
         }
     }
 
-    private void RandQuestion()
+    [Command]
+    private void StartGame(bool StartCount)
     {
-        Rand = Random.Range(0, QuestionBox.Length);
+        RpcReceiveStartGame(StartCount);
     }
 
-    
+    [ClientRpc]
+    private void RpcReceiveStartGame(bool StartCount)
+    {
+        CountDown.enabled = StartCount;
+    }
+
+
+    [Command]
+    private void RandQuestion(int QuestionBoxLenght)
+    {
+        RpcReceiveRandQuestion(QuestionBoxLenght);
+    }
+
+    [ClientRpc]
+    private void RpcReceiveRandQuestion(int QuestionBoxLenght)
+    {
+        Rand = Random.Range(0, QuestionBoxLenght);
+    }
+
+
     IEnumerator GameWave()
     {
         yield return new WaitForSeconds(1);
@@ -128,7 +153,21 @@ public class GameManageMent : NetworkBehaviour
         
         Debug.Log("10초 시작");
         setCountDown = true;
+        isCountDown(setCountDown);
     }
+
+    [Command]
+    private void isCountDown(bool setCountDouwn)
+    {
+        RpcReceiveisCountDown(setCountDouwn);
+    }
+
+    [ClientRpc]
+    private void RpcReceiveisCountDown(bool setCountDouwn)
+    {
+        setCountDown = setCountDouwn;
+    }
+
 
     private void QuestionCheck()
     {
