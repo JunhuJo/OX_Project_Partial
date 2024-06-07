@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
+using Cinemachine;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -14,6 +15,13 @@ public class NetSpawnedObject : NetworkBehaviour
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
     public float _moveSpeed = 4.0f;
+
+
+
+    [SerializeField] private Vector3 defaultInitialPlanePosition = new Vector3(-9.16621f, 0.036054f, -66.13957f); // Adjust as necessary
+    private CinemachineVirtualCamera virtualCamera;
+    private string MyObjectName;
+
 
     private void Update()
     {
@@ -58,6 +66,34 @@ public class NetSpawnedObject : NetworkBehaviour
 
         //RotateLocalPlayer();
     }
+
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        // Set the initial position of the player
+        //transform.position = new Vector3(Random.Range(defaultInitialPlanePosition.x, defaultInitialPlanePosition.y), 1, -154);
+
+        // Check if this is the local player
+        if (isLocalPlayer)
+        {
+            // Get the name of the player object
+            MyObjectName = gameObject.name;
+
+            // Find the virtual camera in the scene
+            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+            if (virtualCamera != null)
+            {
+                // Set the Follow and Look At fields of the virtual camera to the local player
+                virtualCamera.Follow = transform;
+                //virtualCamera.LookAt = transform;
+            }
+        }
+
+    }
+
     //마우스 보는 방향으로 회전(이건안씀)
     void RotateLocalPlayer()
     {

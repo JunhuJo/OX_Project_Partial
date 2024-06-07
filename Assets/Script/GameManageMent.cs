@@ -19,9 +19,10 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Button GameStartBtn;
 
     [Header("Question")]
-    [SerializeField] Canvas UI_Window;
-    [SerializeField] GameObject[] QuestionBox;
-
+    [SerializeField] private Canvas UI_Window;
+    [SerializeField] private Text Win_Text;
+    [SerializeField] private GameObject[] QuestionBox;
+    
 
     public bool setCountDown = false;
     public bool setStartWave = false;
@@ -45,7 +46,7 @@ public class GameManageMent : NetworkBehaviour
     private void Update()
     {
         StartCountDown();
-        ViewPoint();
+        
         if (Wave) 
         {
             StartCoroutine(GameWave());
@@ -79,7 +80,6 @@ public class GameManageMent : NetworkBehaviour
         else if (StartGames == true)
         {
             StartCount.enabled = true;
-            
         }
     
         //게임 라운드 종료
@@ -89,6 +89,7 @@ public class GameManageMent : NetworkBehaviour
             X_Zone.gameObject.SetActive(true);
             O_Zone.gameObject.SetActive(true);
             Wall.gameObject.SetActive(true);
+            QuestionCheck();
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
@@ -97,70 +98,54 @@ public class GameManageMent : NetworkBehaviour
         }
     }
 
-    
     private void RandQuestion()
     {
         Rand = Random.Range(0, QuestionBox.Length);
     }
 
-    //[Server]
-    //public void StartCountdown()
-    //{
-    //    StartCoroutine(Count());
-    //}
-    //
-    //
-    //[Server]
-    //IEnumerator Count()
-    //{
-    //    if (StartGames)
-    //    {
-    //        StartGames = true;
-    //        for (int i = 4; i >= 0; i--)
-    //        {
-    //            RpcUpdateCount(i + 1);
-    //            Debug.Log($"시작 카운트(서버) : {i + 1}");
-    //            yield return new WaitForSeconds(1);
-    //        }
-    //        RpcUpdateCount(-1); // 게임 시작 메시지 전송
-    //        StartGames = false;
-    //    }
-    //}
-    //
-    //[ClientRpc]
-    //void RpcUpdateCount(int count)
-    //{
-    //    if (count > 0)
-    //    {
-    //        GameStart_Text.text = $"{count}";
-    //    }
-    //    else if (count == -1)
-    //    {
-    //        GameStart_Text.text = "게임 시작(서버)!@!";
-    //        Invoke(nameof(ClearText), 1);
-    //        Wave = true;
-    //    }
-    //}
-    
-    void ClearText()
-    {
-        GameStart_Text.text = "";
-    }
     
     IEnumerator GameWave()
     {
+        yield return new WaitForSeconds(1);
         QuestionBox[Rand].SetActive(true);
         Wave = false;
         yield return new WaitForSeconds(10);
         
         Debug.Log("10초 시작");
         setCountDown = true;
-        
     }
 
-    private void Verification()
+    private void QuestionCheck()
     {
+        
+        for (int i = 0; i < QuestionBox.Length; i++)
+        {
+            GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
+            if (targetObject.activeInHierarchy)
+            {
+                Question question = targetObject.GetComponent<Question>();
+                if (question.QuestionCurrent == QustionValue)
+                {
+                    Win_Text.text = "정답 입니다 ^ ㅇ ^";
+                    GetPoint += 1;
+
+                    StartCoroutine(CloseQuestionBox());
+                }
+                else if (question.QuestionCurrent != QustionValue)
+                {
+                    Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                    StartCoroutine(CloseQuestionBox());
+                }
+            }
+        }
+        ViewPoint();
+    }
+
+    IEnumerator CloseQuestionBox()
+    {
+        yield return new WaitForSeconds(3);
         QustionValue = 0;
+        Win_Text.text = " ";
     }
 
     private void ViewPoint()
