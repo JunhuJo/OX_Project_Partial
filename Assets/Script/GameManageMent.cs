@@ -144,6 +144,8 @@ public class GameManageMent : NetworkBehaviour
     }
 
 
+
+
     IEnumerator GameWave()
     {
         yield return new WaitForSeconds(1);
