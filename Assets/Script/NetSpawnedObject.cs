@@ -11,6 +11,7 @@ public class NetSpawnedObject : NetworkBehaviour
     public NavMeshAgent NavAgent_Player;
     public Animator Animator_Player;
     public Transform Transform_Player;
+    public TextMesh TextMesh_NetType;
 
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
@@ -40,6 +41,7 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void CheckIsLocalPlayerOnUpdate()
     {
+        TextMesh_NetType.text = this.isLocalPlayer ? "로컬" : "로컬 아님";
         if (isLocalPlayer == false)
             return;
         
