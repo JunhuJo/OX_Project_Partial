@@ -26,6 +26,14 @@ public class LoginManager : MonoBehaviour
     //    //GameStart_Btn.GetComponent<Button>().onClick.AddListener(OnClick_GameStart);
     //}
 
+    private void Start()
+    {
+        // 서버와 클라이언트 로그인 버튼에 이벤트 리스너 추가
+        serverLoginButton.onClick.AddListener(OnClick_StartServer);
+        clientLoginButton.onClick.AddListener(OnClick_StartClient);
+    }
+
+
     public void OnClick_StartServer()
     {
         string username = usernameInput.text;
@@ -33,7 +41,7 @@ public class LoginManager : MonoBehaviour
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
         {
             //서버 입장 화면
-            //PlayerPrefs.SetString("ServerStart_Btn", username);
+            PlayerPrefs.SetString("PlayerName", username); // 닉네임 저장
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server : {serverAddress}";
             networkManager.StartHost();
@@ -52,7 +60,7 @@ public class LoginManager : MonoBehaviour
         string serverAddress = serverAddressInput.text;
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(serverAddress))
         {
-           
+            PlayerPrefs.SetString("PlayerName", username); // 닉네임 저장
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server_Name : {serverAddress}";
             networkManager.StartClient();

@@ -274,7 +274,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f8834e3807867746845351971c17acb, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -314,7 +314,7 @@ TextMesh:
   m_FontSize: 130
   m_FontStyle: 1
   m_RichText: 1
-  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Font: {fileID: 12800000, guid: 9f8834e3807867746845351971c17acb, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -2126,8 +2126,7 @@ MonoBehaviour:
   syncInterval: 0
   NavAgent_Player: {fileID: 2780743382561703652}
   Animator_Player: {fileID: 0}
-  Transform_Player: {fileID: 4241270289855946127}
-  TextMesh_NetType: {fileID: 4969993689765732694}
+  TextMesh_Nickname: {fileID: 4969993689765732694}
   _rotationSpeed: 300
   _moveSpeed: 4
   defaultInitialPlanePosition: {x: -7.06, y: 0.61, z: -54.29}
