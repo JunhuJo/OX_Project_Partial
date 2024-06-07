@@ -22,17 +22,21 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Canvas UI_Window;
     [SerializeField] private Text Win_Text;
     [SerializeField] private GameObject[] QuestionBox;
-    
+
+    [SyncVar(hook = nameof(OnPointChanged))]
+    public int GetPoint = 0; // 클라이언트에게 점수를 전달하는 변수입니다.
+
 
     public bool setCountDown = false;
     public bool setStartWave = false;
     public bool StartGames = false;
     public bool Wave = false;
-    public int GetPoint = 0;
 
     private int Rand;
-    private float time = 0;
-    private bool TrueFalse = false;
+    
+    //private int Rand;
+    //private float time = 0;
+    //private bool TrueFalse = false;
 
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
@@ -45,14 +49,22 @@ public class GameManageMent : NetworkBehaviour
 
     private void Update()
     {
+
         StartCountDown();
-        
-        if (Wave) 
+       
+        if (Wave && isClient)
         {
             StartCoroutine(GameWave());
         }
-    }
 
+        //StartCountDown();
+        //
+        //if (Wave) 
+        //{
+        //    StartCoroutine(GameWave());
+        //}
+    }
+    
     private void CreateQuestion()
     {
         for (int i = 0; i < QuestionBox.Length; i++)
@@ -65,9 +77,12 @@ public class GameManageMent : NetworkBehaviour
 
     public void OnClick_GameStart()
     {
-       
+      
         GameStartBtn.gameObject.SetActive(false);
-        StartGames = true;
+        StartGames = true; // 게임 시작을 서버에서 처리합니다.
+       
+        //GameStartBtn.gameObject.SetActive(false);
+        //StartGames = true;
     }
 
     public void StartCountDown()
@@ -93,7 +108,7 @@ public class GameManageMent : NetworkBehaviour
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
-            CountDown.enabled = false;
+            StartCount.enabled = false;
             Wave = true;
         }
     }
@@ -138,7 +153,7 @@ public class GameManageMent : NetworkBehaviour
                 }
             }
         }
-        ViewPoint();
+        
     }
 
     IEnumerator CloseQuestionBox()
@@ -148,8 +163,11 @@ public class GameManageMent : NetworkBehaviour
         Win_Text.text = " ";
     }
 
-    private void ViewPoint()
+    private void OnPointChanged(int oldPoint, int newPoint)
     {
-        pointText.text = $"점수 : {GetPoint}";
+        if (isLocalPlayer)
+        {
+            pointText.text = $"점수 : {newPoint}"; // 클라이언트에게 점수를 업데이트합니다.
+        }
     }
 }
