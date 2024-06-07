@@ -1935,6 +1935,7 @@ GameObject:
   - component: {fileID: 4241270289855946127}
   - component: {fileID: 2780743382561703652}
   - component: {fileID: 4241270289865830923}
+  - component: {fileID: -1330287069910110290}
   - component: {fileID: 5931750506223815179}
   - component: {fileID: 4323099238297842911}
   - component: {fileID: 4241270289855946121}
@@ -2009,6 +2010,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1330287069910110290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241270289856430191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 4241270289865830923}
 --- !u!136 &5931750506223815179
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2107,7 +2125,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   NavAgent_Player: {fileID: 2780743382561703652}
-  Animator_Player: {fileID: 4241270289865830923}
+  Animator_Player: {fileID: 0}
   Transform_Player: {fileID: 4241270289855946127}
   TextMesh_NetType: {fileID: 4969993689765732694}
   _rotationSpeed: 300
