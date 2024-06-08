@@ -29,6 +29,8 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private AudioSource Effect_Sound;
     [SerializeField] private Slider Volume_Slider;
 
+    ///[Header("Network")]
+    ///[SerializeField] private LoginManager LoginManager;
 
     public int GetPoint = 0; 
 
@@ -51,6 +53,7 @@ public class GameManageMent : NetworkBehaviour
     {
         StartCountDown();
         OnPointChanged();
+
         if (Wave) 
         {
             StartCoroutine(GameWave());
@@ -101,7 +104,11 @@ public class GameManageMent : NetworkBehaviour
         else if (StartGames == true)
         {
             StartCount.enabled = true;
-            StartGame(StartCount.enabled);
+
+            if (isServer)
+            {
+                StartGame(StartCount.enabled);
+            }
         }
     
         //게임 라운드 종료
@@ -156,7 +163,11 @@ public class GameManageMent : NetworkBehaviour
         
         Debug.Log("10초 시작");
         setCountDown = true;
-        isCountDown(setCountDown);
+        if (isServer)
+        {
+            isCountDown(setCountDown);
+        }
+        
     }
 
     [Command]
@@ -174,55 +185,33 @@ public class GameManageMent : NetworkBehaviour
 
     private void QuestionCheck()
     {
-
-        foreach (var questionBox in QuestionBox)
+        for (int i = 0; i < QuestionBox.Length; i++)
         {
-            if (questionBox.activeSelf)
+            Debug.Log("이제 정답 체크 들어간다~~~");
+            GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
+            if (targetObject.activeInHierarchy)
             {
-                var question = questionBox.GetComponent<Question>();
+                Question question = targetObject.GetComponent<Question>();
                 if (question.QuestionCurrent == QustionValue)
                 {
                     Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                    GetPoint++;
+                    GetPoint += 1;
+        
+                    StartCoroutine(CloseQuestionBox());
                 }
-                else
+                else if (question.QuestionCurrent != QustionValue)
                 {
                     Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                    StartCoroutine(CloseQuestionBox());
                 }
-
-                StartCoroutine(CloseQuestionBox(questionBox));
-                break;
             }
         }
 
-
-        //for (int i = 0; i < QuestionBox.Length; i++)
-        //{
-        //    GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
-        //    if (targetObject.activeInHierarchy)
-        //    {
-        //        Question question = targetObject.GetComponent<Question>();
-        //        if (question.QuestionCurrent == QustionValue)
-        //        {
-        //            Win_Text.text = "정답 입니다 ^ ㅇ ^";
-        //            GetPoint += 1;
-        //
-        //            StartCoroutine(CloseQuestionBox());
-        //        }
-        //        else if (question.QuestionCurrent != QustionValue)
-        //        {
-        //            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-        //            StartCoroutine(CloseQuestionBox());
-        //        }
-        //    }
-        //}
-
     }
 
-    IEnumerator CloseQuestionBox(GameObject questionBox)
+    IEnumerator CloseQuestionBox()
     {
         yield return new WaitForSeconds(3);
-        questionBox.SetActive(false);
         QustionValue = 0;
         Win_Text.text = " ";
     }

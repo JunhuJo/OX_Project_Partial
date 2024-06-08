@@ -5,7 +5,7 @@ using Mirror;
 public class LoginManager : MonoBehaviour
 {
     [Header("Loging_UI")]
-    [SerializeField] private GameObject loginWindow;
+    public GameObject loginWindow;
     [SerializeField] private InputField usernameInput;
     [SerializeField] private InputField serverAddressInput;
     [SerializeField] private Button serverLoginButton;
@@ -31,6 +31,7 @@ public class LoginManager : MonoBehaviour
         // 서버와 클라이언트 로그인 버튼에 이벤트 리스너 추가
         serverLoginButton.onClick.AddListener(OnClick_StartServer);
         clientLoginButton.onClick.AddListener(OnClick_StartClient);
+
     }
 
 
