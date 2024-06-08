@@ -1662,6 +1662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManageMent: {fileID: 8573570118109399654}
+  player: {fileID: 2566528497451563971, guid: e7038035fa338b84089c92ca6c53f6eb, type: 3}
 --- !u!1 &539558106
 GameObject:
   m_ObjectHideFlags: 0
@@ -5026,6 +5027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManageMent: {fileID: 8573570118109399654}
+  player: {fileID: 2566528497451563971, guid: e7038035fa338b84089c92ca6c53f6eb, type: 3}
 --- !u!1 &1302971954
 GameObject:
   m_ObjectHideFlags: 0
@@ -8708,16 +8710,15 @@ MonoBehaviour:
   QuestionBox:
   - {fileID: 3474878085285995023, guid: bb85cf3cb2e332f4bb88479ee2344d5b, type: 3}
   - {fileID: 6820518473902522010, guid: 67334502c45e46640a1a8be50846997c, type: 3}
+  Player: {fileID: 2566528497451563971, guid: e7038035fa338b84089c92ca6c53f6eb, type: 3}
   Login_BGM: {fileID: 1234755253}
   InGame_BGM: {fileID: 0}
   Effect_Sound: {fileID: 0}
   Volume_Slider: {fileID: 1973464978}
-  GetPoint: 0
   setCountDown: 0
   setStartWave: 0
   StartGames: 0
   Wave: 0
-  QustionValue: 0
 --- !u!1 &8573570118109399655
 GameObject:
   m_ObjectHideFlags: 0

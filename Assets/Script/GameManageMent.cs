@@ -23,6 +23,7 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Canvas UI_Window;
     [SerializeField] private Text Win_Text;
     [SerializeField] private GameObject[] QuestionBox;
+    [SerializeField] private NetSpawnedObject Player;
 
     [Header("Volume")]
     [SerializeField] private AudioSource Login_BGM;
@@ -33,7 +34,7 @@ public class GameManageMent : NetworkBehaviour
     ///[Header("Network")]
     ///[SerializeField] private LoginManager LoginManager;
 
-    public int GetPoint = 0; 
+    
 
     public bool setCountDown = false;
     public bool setStartWave = false;
@@ -41,8 +42,7 @@ public class GameManageMent : NetworkBehaviour
     public bool Wave = false;
     private int Rand; //랜덤 문제 값 담을 변수
   
-    //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
-    public int QustionValue = 0;
+    
    
     //// 클론된 QuestionBox 오브젝트들을 추적하기 위한 리스트
     //private List<GameObject> questionBoxClones = new List<GameObject>();
@@ -57,7 +57,7 @@ public class GameManageMent : NetworkBehaviour
     {
         StartCountDown();
         OnPointChanged();
-        Debug.Log($"정답 값 :{QustionValue}");
+        
         if (Wave) 
         {
             StartCoroutine(GameWave());
@@ -201,16 +201,16 @@ public class GameManageMent : NetworkBehaviour
                 Question question = questionBox.GetComponent<Question>();
                 if (question != null)
                 {
-                    Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {QustionValue}");
-                    if (question.QuestionCurrent == QustionValue)
+                    Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {Player.QustionValue}");
+                    if (question.QuestionCurrent == Player.QustionValue)
                     {
                         question.gameObject.SetActive(false);
                         Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                        GetPoint += 1;
+                        Player.GetPoint += 1;
 
                         StartCoroutine(CloseQuestionBox());
                     }
-                    else if (question.QuestionCurrent != QustionValue)
+                    else if (question.QuestionCurrent != Player.QustionValue)
                     {
                         question.gameObject.SetActive(false);
                         Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
@@ -247,13 +247,13 @@ public class GameManageMent : NetworkBehaviour
     IEnumerator CloseQuestionBox()
     {
         yield return new WaitForSeconds(3);
-        QustionValue = 0;
+        Player.QustionValue = 0;
         Win_Text.text = " ";
     }
 
     private void OnPointChanged()
     {
-          pointText.text = $"점수 : {GetPoint}"; 
+          pointText.text = $"점수 : {Player.GetPoint}"; 
     }
 
 

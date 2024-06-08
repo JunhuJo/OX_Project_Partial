@@ -22,6 +22,11 @@ public class NetSpawnedObject : NetworkBehaviour
     [SyncVar(hook = nameof(OnNicknameChanged))]
     private string playerNickname;
 
+
+    //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
+    public int QustionValue = 0;
+    public int GetPoint = 0;
+
     private void Start()
     {
         Animator_Player = GetComponent<Animator>();
