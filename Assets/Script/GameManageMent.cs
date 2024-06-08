@@ -15,15 +15,15 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private StartCount StartCount;
     [SerializeField] private Text CountDown_Text;
     [SerializeField] private Text GameStart_Text;
-    [SerializeField] private Text pointText;
+    //[SerializeField] private Text pointText;
 
     [SerializeField] private Button GameStartBtn;
 
     [Header("Question")]
     [SerializeField] private Canvas UI_Window;
-    [SerializeField] private Text Win_Text;
-    [SerializeField] private GameObject[] QuestionBox;
-    [SerializeField] private NetSpawnedObject Player;
+    //[SerializeField] private Text Win_Text;
+    public GameObject[] QuestionBox;
+    [SerializeField] private NetSpawnedObject player;
     [SerializeField] private OXZoneTrigger O_ZoneTrigger;
     [SerializeField] private OXZoneTrigger X_ZoneTrigger;
 
@@ -58,7 +58,7 @@ public class GameManageMent : NetworkBehaviour
     private void Update()
     {
         StartCountDown();
-        OnPointChanged();
+        
         
         if (Wave) 
         {
@@ -129,7 +129,7 @@ public class GameManageMent : NetworkBehaviour
             X_Zone.gameObject.SetActive(true);
             O_Zone.gameObject.SetActive(true);
             Wall.gameObject.SetActive(true);
-            QuestionCheck();
+            
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
@@ -191,80 +191,6 @@ public class GameManageMent : NetworkBehaviour
     private void RpcReceiveisCountDown(bool setCountDouwn)
     {
         setCountDown = setCountDouwn;
-    }
-
-
-    public void QuestionCheck()
-    {
-        if (O_ZoneTrigger || X_ZoneTrigger)
-        {
-            Debug.Log("이제 정답 체크 들어간다~~~");
-
-            // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
-            foreach (GameObject questionBox in QuestionBox)
-            {
-                if (questionBox.activeInHierarchy)
-                {
-                    Question question = questionBox.GetComponent<Question>();
-                    if (question != null)
-                    {
-                        Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {Player.QustionValue}");
-                        if (question.QuestionCurrent == Player.QustionValue)
-                        {
-                            question.gameObject.SetActive(false);
-                            Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                            Player.GetPoint += 1;
-
-                            StartCoroutine(CloseQuestionBox());
-                        }
-                        else if (question.QuestionCurrent != Player.QustionValue)
-                        {
-                            question.gameObject.SetActive(false);
-                            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-                            StartCoroutine(CloseQuestionBox());
-                        }
-                    }
-                }
-
-            }   
-            O_ZoneTrigger.check = false;
-            X_ZoneTrigger.check = false;
-        }
-
-        //for (int i = 0; i < QuestionBox.Length; i++)
-        //{
-        //    Debug.Log("이제 정답 체크 들어간다~~~");
-        //    GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
-        //    if (targetObject.activeInHierarchy)
-        //    {
-        //        Question question = targetObject.GetComponent<Question>();
-        //        if (question.QuestionCurrent == QustionValue)
-        //        {
-        //            Win_Text.text = "정답 입니다 ^ ㅇ ^";
-        //            GetPoint += 1;
-        //
-        //            StartCoroutine(CloseQuestionBox());
-        //        }
-        //        else if (question.QuestionCurrent != QustionValue)
-        //        {
-        //            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-        //            StartCoroutine(CloseQuestionBox());
-        //        }
-        //    }
-        //}
-
-    }
-
-    IEnumerator CloseQuestionBox()
-    {
-        yield return new WaitForSeconds(3);
-        Player.QustionValue = 0;
-        Win_Text.text = " ";
-    }
-
-    private void OnPointChanged()
-    {
-          pointText.text = $"점수 : {Player.GetPoint}";
     }
 
 

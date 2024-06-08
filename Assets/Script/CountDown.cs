@@ -28,7 +28,7 @@ public class CountDown : NetworkBehaviour
             }
             countDownText.text = "Time Over";
             GameManageMent.setCountDown = false;
-            isCountDown(GameManageMent.setCountDown);
+            //isCountDown(GameManageMent.setCountDown);
             yield return new WaitForSeconds(1);
             countDownText.text = " ";
         }

@@ -1,9 +1,51 @@
-
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class OXZoneTrigger : MonoBehaviour
 {
+    
+
+
     public bool check = false;
+
+    
+
+    //blic void QuestionCheck()
+    //
+    //  
+    //  
+    //  }
+    //
+    //  //for (int i = 0; i < QuestionBox.Length; i++)
+    //  //{
+    //  //    Debug.Log("이제 정답 체크 들어간다~~~");
+    //  //    GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
+    //  //    if (targetObject.activeInHierarchy)
+    //  //    {
+    //  //        Question question = targetObject.GetComponent<Question>();
+    //  //        if (question.QuestionCurrent == QustionValue)
+    //  //        {
+    //  //            Win_Text.text = "정답 입니다 ^ ㅇ ^";
+    //  //            GetPoint += 1;
+    //  //
+    //  //            StartCoroutine(CloseQuestionBox());
+    //  //        }
+    //  //        else if (question.QuestionCurrent != QustionValue)
+    //  //        {
+    //  //            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+    //  //            StartCoroutine(CloseQuestionBox());
+    //  //        }
+    //  //    }
+    //  //}
+    //
+    //
+    //
+
+
+
+
+
     //[SerializeField] GameManageMent gameManageMent;
 
     //private void OnTriggerEnter(Collider other)
@@ -44,3 +86,4 @@ public class OXZoneTrigger : MonoBehaviour
     //    //}
     //}
 }
+
