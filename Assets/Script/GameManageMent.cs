@@ -23,21 +23,21 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Text Win_Text;
     [SerializeField] private GameObject[] QuestionBox;
 
-    
-    public int GetPoint = 0; 
+    [Header("Volume")]
+    [SerializeField] private AudioSource Login_BGM;
+    [SerializeField] private AudioSource InGame_BGM;
+    [SerializeField] private AudioSource Effect_Sound;
+    [SerializeField] private Slider Volume_Slider;
 
+
+    public int GetPoint = 0; 
 
     public bool setCountDown = false;
     public bool setStartWave = false;
     public bool StartGames = false;
     public bool Wave = false;
-
-    private int Rand;
-    
-    //private int Rand;
-    //private float time = 0;
-    //private bool TrueFalse = false;
-
+    private int Rand; //랜덤 문제 값 담을 변수
+  
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
 
@@ -56,6 +56,7 @@ public class GameManageMent : NetworkBehaviour
             StartCoroutine(GameWave());
         }
 
+        VolumeControl();
     }
     
     private void CreateQuestion()
@@ -146,7 +147,6 @@ public class GameManageMent : NetworkBehaviour
 
 
 
-
     IEnumerator GameWave()
     {
         yield return new WaitForSeconds(1);
@@ -232,6 +232,23 @@ public class GameManageMent : NetworkBehaviour
         if (isLocalPlayer)
         {
             pointText.text = $"점수 : {GetPoint}"; 
+        }
+    }
+
+
+    private void VolumeControl()
+    {
+        if (Login_BGM != null)
+        {
+            Login_BGM.volume = Volume_Slider.value;
+        }
+        if (InGame_BGM != null)
+        {
+            InGame_BGM.volume = Volume_Slider.value;
+        }
+        if (Effect_Sound != null)
+        {
+            Effect_Sound.volume = Volume_Slider.value;
         }
     }
 }
