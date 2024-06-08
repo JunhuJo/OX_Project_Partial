@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +34,9 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private AudioSource Effect_Sound;
     [SerializeField] private Slider Volume_Slider;
 
-    ///[Header("Network")]
-    ///[SerializeField] private LoginManager LoginManager;
+    [Header("PlayerPrefab")]
+    [SerializeField] private GameObject playerprefab;
 
-    
 
     public bool setCountDown = false;
     public bool setStartWave = false;
@@ -66,8 +66,6 @@ public class GameManageMent : NetworkBehaviour
         }
 
         VolumeControl();
-        
-
 
     }
     

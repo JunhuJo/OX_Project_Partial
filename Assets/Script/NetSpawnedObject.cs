@@ -4,8 +4,6 @@ using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.UI;
 using System.Collections;
-using Mirror.Examples.Pong;
-using Unity.VisualScripting;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -13,11 +11,12 @@ public class NetSpawnedObject : NetworkBehaviour
     [SerializeField] private NavMeshAgent NavAgent_Player;
     [SerializeField] private Animator Animator_Player;
     [SerializeField] private TextMesh TextMesh_Nickname;
-    [SerializeField] private Text point;
 
-    [SerializeField] private GameManageMent gameManageMent;
-    [SerializeField] private Text Win_Text;
-    [SerializeField] private GameObject Wall;
+    public Text point;
+
+    public GameManageMent gameManageMent;
+    public Text Win_Text;
+    
 
     private Transform Transform_Player;
 
@@ -41,12 +40,16 @@ public class NetSpawnedObject : NetworkBehaviour
     private void Start()
     {
         Animator_Player = GetComponent<Animator>();
-
-        point = gameObject.transform.Find("Point").GetComponent<Text>();
-        point = gameObject.transform.Find("Win_Text").GetComponent<Text>();
-        gameManageMent = gameObject.transform.Find("Game_Manager").GetComponent<GameManageMent>();
-        Wall = gameObject.transform.Find("Wall").GetComponent<GameObject>();
     }
+
+    //private void OnEnable()
+    //{
+    //    point = gameObject.transform.Find("Point").GetComponent<Text>();
+    //    point = gameObject.transform.Find("Win_Text").GetComponent<Text>();
+    //    gameManageMent = gameObject.transform.Find("Game_Manager").GetComponent<GameManageMent>();
+    //}
+
+
 
     private void Update()
     {
@@ -141,50 +144,54 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OXZoneTrigger oXZoneTrigger = other.GetComponent<OXZoneTrigger>();
-        
-        if (other.gameObject.name == "O_Zone")
-         {
-             QustionValue = 1;
-            
-        }
-         else if (other.gameObject.name == "X_Zone")
-         {
-             QustionValue = 2;
-         }
-        oXZoneTrigger.check = true;
-
-
-        if (oXZoneTrigger.check)
+        if (isLocalPlayer)
         {
-            Debug.Log("이제 정답 체크 들어간다~~~");
+            OXZoneTrigger oXZoneTrigger = other.GetComponent<OXZoneTrigger>();
 
-            // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
-            foreach (GameObject questionBox in gameManageMent.QuestionBox)
+            if (other.gameObject.name == "O_Zone")
             {
-                if (questionBox.activeInHierarchy)
-                {
-                    Question question = questionBox.GetComponent<Question>();
-                    Debug.Log($"문제 값: {question.QuestionCurrent}, QustionValue: {QustionValue}");
-                    if (question.QuestionCurrent == QustionValue)
-                    {
-                        question.gameObject.SetActive(false);
-                        Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                        GetPoint += 1;
+                QustionValue = 1;
 
-                        StartCoroutine(CloseQuestionBox());
-                    }
-                    else if (question.QuestionCurrent != QustionValue)
-                    {
-                        question.gameObject.SetActive(false);
-                        Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-                        StartCoroutine(CloseQuestionBox());
-                    }
-                }
-                oXZoneTrigger.check = false;
             }
-           
+            else if (other.gameObject.name == "X_Zone")
+            {
+                QustionValue = 2;
+            }
+            oXZoneTrigger.check = true;
+
+
+            if (oXZoneTrigger.check)
+            {
+                Debug.Log("이제 정답 체크 들어간다~~~");
+
+                // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
+                foreach (GameObject questionBox in gameManageMent.QuestionBox)
+                {
+                    if (questionBox.activeInHierarchy)
+                    {
+                        Question question = questionBox.GetComponent<Question>();
+                        Debug.Log($"문제 값: {question.QuestionCurrent}, QustionValue: {QustionValue}");
+                        if (question.QuestionCurrent == QustionValue)
+                        {
+                            question.gameObject.SetActive(false);
+                            Win_Text.text = "정답 입니다 ^ ㅇ ^";
+                            GetPoint += 1;
+
+                            StartCoroutine(CloseQuestionBox());
+                        }
+                        else if (question.QuestionCurrent != QustionValue)
+                        {
+                            question.gameObject.SetActive(false);
+                            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                            StartCoroutine(CloseQuestionBox());
+                        }
+                    }
+                    oXZoneTrigger.check = false;
+                }
+
+            }
         }
+       
     }
 
     IEnumerator CloseQuestionBox()
@@ -192,7 +199,7 @@ public class NetSpawnedObject : NetworkBehaviour
         yield return new WaitForSeconds(3);
         Win_Text.text = " ";
         QustionValue = 0;
-        Wall.gameObject.SetActive(false);
+       
     }
     void pointUpdate()
     {

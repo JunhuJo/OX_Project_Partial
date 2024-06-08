@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Mirror.Examples.Pong;
 
 public class OXZoneTrigger : MonoBehaviour
 {
     public bool check = false;
+    [SerializeField] GameObject Wall;
 
 
     private void Update()
@@ -16,7 +18,9 @@ public class OXZoneTrigger : MonoBehaviour
     {
         if (!check)
         {
+            Wall.gameObject.SetActive(false);
             gameObject.SetActive(false);
+            
         }
     }
 
