@@ -1613,6 +1613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 529518783}
   - component: {fileID: 529518782}
+  - component: {fileID: 529518784}
   m_Layer: 0
   m_Name: X_Zone
   m_TagString: Untagged
@@ -1648,6 +1649,19 @@ Transform:
   m_Father: {fileID: 168844309}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &529518784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529518781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0757f380f7198814fa65ad495ec34945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  check: 0
 --- !u!1 &539558106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,7 +3854,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 12}
-  m_SizeDelta: {x: 350, y: 60}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177235932
 MonoBehaviour:
@@ -3864,8 +3878,8 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9f8834e3807867746845351971c17acb, type: 3}
-    m_FontSize: 55
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 4
     m_MaxSize: 55
@@ -3875,7 +3889,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: "\u3141\u3141\u3141\u3141\u3141\u3141"
 --- !u!222 &1177235933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4963,6 +4977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1296874748}
   - component: {fileID: 1296874747}
+  - component: {fileID: 1296874749}
   m_Layer: 0
   m_Name: O_Zone
   m_TagString: Untagged
@@ -4998,6 +5013,19 @@ Transform:
   m_Father: {fileID: 168844309}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1296874749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296874746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0757f380f7198814fa65ad495ec34945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  check: 0
 --- !u!1 &1302971954
 GameObject:
   m_ObjectHideFlags: 0
@@ -8681,6 +8709,8 @@ MonoBehaviour:
   - {fileID: 3474878085285995023, guid: bb85cf3cb2e332f4bb88479ee2344d5b, type: 3}
   - {fileID: 6820518473902522010, guid: 67334502c45e46640a1a8be50846997c, type: 3}
   Player: {fileID: 2566528497451563971, guid: e7038035fa338b84089c92ca6c53f6eb, type: 3}
+  O_ZoneTrigger: {fileID: 1296874749}
+  X_ZoneTrigger: {fileID: 529518784}
   Login_BGM: {fileID: 1234755253}
   InGame_BGM: {fileID: 0}
   Effect_Sound: {fileID: 0}

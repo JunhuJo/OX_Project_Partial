@@ -131,7 +131,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC774 \uBB38\uC81C\uB294 \uC815\uB2F5 \uC785\uB2C8\uB2E4.\n\nO or X"
+  m_Text: "\uB300\uD55C\uBBFC\uAD6D\uC758 \uC218\uB3C4\uB294 \uC11C\uC6B8\uC774\uB2E4.\n\nO
+    or X"
 --- !u!1 &3474878086329899373
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class NetSpawnedObject : NetworkBehaviour
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
     public int GetPoint = 0;
-    public bool check = false;  
+    
 
     private void Start()
     {
@@ -126,15 +126,17 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-            if (other.gameObject.name == "O_Zone")
-            {
-                QustionValue = 1;
-            }
-            else if (other.gameObject.name == "X_Zone")
-            {
-                QustionValue = 2;
-            }
-
-            check = true;
+        OXZoneTrigger oXZoneTrigger = other.GetComponent<OXZoneTrigger>();
+        
+        if (other.gameObject.name == "O_Zone")
+         {
+             QustionValue = 1;
+            
+        }
+         else if (other.gameObject.name == "X_Zone")
+         {
+             QustionValue = 2;
+         }
+        oXZoneTrigger.check = true;
     }
 }

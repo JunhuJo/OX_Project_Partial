@@ -24,6 +24,8 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Text Win_Text;
     [SerializeField] private GameObject[] QuestionBox;
     [SerializeField] private NetSpawnedObject Player;
+    [SerializeField] private OXZoneTrigger O_ZoneTrigger;
+    [SerializeField] private OXZoneTrigger X_ZoneTrigger;
 
     [Header("Volume")]
     [SerializeField] private AudioSource Login_BGM;
@@ -194,7 +196,7 @@ public class GameManageMent : NetworkBehaviour
 
     public void QuestionCheck()
     {
-        if (Player.check)
+        if (O_ZoneTrigger || X_ZoneTrigger)
         {
             Debug.Log("이제 정답 체크 들어간다~~~");
 
@@ -224,8 +226,9 @@ public class GameManageMent : NetworkBehaviour
                     }
                 }
 
-            }
-            Player.check = false;
+            }   
+            O_ZoneTrigger.check = false;
+            X_ZoneTrigger.check = false;
         }
 
         //for (int i = 0; i < QuestionBox.Length; i++)
