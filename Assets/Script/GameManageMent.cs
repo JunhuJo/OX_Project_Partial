@@ -64,6 +64,9 @@ public class GameManageMent : NetworkBehaviour
         }
 
         VolumeControl();
+        
+
+
     }
     
     private void CreateQuestion()
@@ -124,7 +127,7 @@ public class GameManageMent : NetworkBehaviour
             X_Zone.gameObject.SetActive(true);
             O_Zone.gameObject.SetActive(true);
             Wall.gameObject.SetActive(true);
-            
+            QuestionCheck();
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
@@ -191,33 +194,38 @@ public class GameManageMent : NetworkBehaviour
 
     public void QuestionCheck()
     {
-        Debug.Log("이제 정답 체크 들어간다~~~");
+        if (Player.check)
+        {
+            Debug.Log("이제 정답 체크 들어간다~~~");
 
-        // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
-        foreach (GameObject questionBox in QuestionBox)
-                 {
-            if (questionBox.activeInHierarchy)
+            // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
+            foreach (GameObject questionBox in QuestionBox)
             {
-                Question question = questionBox.GetComponent<Question>();
-                if (question != null)
+                if (questionBox.activeInHierarchy)
                 {
-                    Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {Player.QustionValue}");
-                    if (question.QuestionCurrent == Player.QustionValue)
+                    Question question = questionBox.GetComponent<Question>();
+                    if (question != null)
                     {
-                        question.gameObject.SetActive(false);
-                        Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                        Player.GetPoint += 1;
+                        Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {Player.QustionValue}");
+                        if (question.QuestionCurrent == Player.QustionValue)
+                        {
+                            question.gameObject.SetActive(false);
+                            Win_Text.text = "정답 입니다 ^ ㅇ ^";
+                            Player.GetPoint += 1;
 
-                        StartCoroutine(CloseQuestionBox());
-                    }
-                    else if (question.QuestionCurrent != Player.QustionValue)
-                    {
-                        question.gameObject.SetActive(false);
-                        Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-                        StartCoroutine(CloseQuestionBox());
+                            StartCoroutine(CloseQuestionBox());
+                        }
+                        else if (question.QuestionCurrent != Player.QustionValue)
+                        {
+                            question.gameObject.SetActive(false);
+                            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                            StartCoroutine(CloseQuestionBox());
+                        }
                     }
                 }
+
             }
+            Player.check = false;
         }
 
         //for (int i = 0; i < QuestionBox.Length; i++)
@@ -253,7 +261,7 @@ public class GameManageMent : NetworkBehaviour
 
     private void OnPointChanged()
     {
-          pointText.text = $"점수 : {Player.GetPoint}"; 
+          pointText.text = $"점수 : {Player.GetPoint}";
     }
 
 

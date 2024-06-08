@@ -9,6 +9,7 @@ public class NetSpawnedObject : NetworkBehaviour
     [SerializeField] private NavMeshAgent NavAgent_Player;
     [SerializeField] private Animator Animator_Player;
     [SerializeField] private TextMesh TextMesh_Nickname;
+    
     private Transform Transform_Player;
 
     [Header("Movement")]
@@ -26,6 +27,7 @@ public class NetSpawnedObject : NetworkBehaviour
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
     public int GetPoint = 0;
+    public bool check = false;  
 
     private void Start()
     {
@@ -120,5 +122,19 @@ public class NetSpawnedObject : NetworkBehaviour
     void CmdSetNickname(string nickname)
     {
         playerNickname = nickname;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+            if (other.gameObject.name == "O_Zone")
+            {
+                QustionValue = 1;
+            }
+            else if (other.gameObject.name == "X_Zone")
+            {
+                QustionValue = 2;
+            }
+
+            check = true;
     }
 }
