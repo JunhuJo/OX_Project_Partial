@@ -23,8 +23,8 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private Text Win_Text;
     [SerializeField] private GameObject[] QuestionBox;
 
-    [SyncVar(hook = nameof(OnPointChanged))]
-    public int GetPoint = 0; // 클라이언트에게 점수를 전달하는 변수입니다.
+    
+    public int GetPoint = 0; 
 
 
     public bool setCountDown = false;
@@ -50,11 +50,12 @@ public class GameManageMent : NetworkBehaviour
     private void Update()
     {
         StartCountDown();
-        
+        OnPointChanged();
         if (Wave) 
         {
             StartCoroutine(GameWave());
         }
+
     }
     
     private void CreateQuestion()
@@ -173,42 +174,64 @@ public class GameManageMent : NetworkBehaviour
 
     private void QuestionCheck()
     {
-        
-        for (int i = 0; i < QuestionBox.Length; i++)
+
+        foreach (var questionBox in QuestionBox)
         {
-            GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
-            if (targetObject.activeInHierarchy)
+            if (questionBox.activeSelf)
             {
-                Question question = targetObject.GetComponent<Question>();
+                var question = questionBox.GetComponent<Question>();
                 if (question.QuestionCurrent == QustionValue)
                 {
                     Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                    GetPoint += 1;
-
-                    StartCoroutine(CloseQuestionBox());
+                    GetPoint++;
                 }
-                else if (question.QuestionCurrent != QustionValue)
+                else
                 {
                     Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-                    StartCoroutine(CloseQuestionBox());
                 }
+
+                StartCoroutine(CloseQuestionBox(questionBox));
+                break;
             }
         }
-        
+
+
+        //for (int i = 0; i < QuestionBox.Length; i++)
+        //{
+        //    GameObject targetObject = GameObject.Find($"Question0{i}(Clone)");
+        //    if (targetObject.activeInHierarchy)
+        //    {
+        //        Question question = targetObject.GetComponent<Question>();
+        //        if (question.QuestionCurrent == QustionValue)
+        //        {
+        //            Win_Text.text = "정답 입니다 ^ ㅇ ^";
+        //            GetPoint += 1;
+        //
+        //            StartCoroutine(CloseQuestionBox());
+        //        }
+        //        else if (question.QuestionCurrent != QustionValue)
+        //        {
+        //            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+        //            StartCoroutine(CloseQuestionBox());
+        //        }
+        //    }
+        //}
+
     }
 
-    IEnumerator CloseQuestionBox()
+    IEnumerator CloseQuestionBox(GameObject questionBox)
     {
         yield return new WaitForSeconds(3);
+        questionBox.SetActive(false);
         QustionValue = 0;
         Win_Text.text = " ";
     }
 
-    private void OnPointChanged(int oldPoint, int newPoint)
+    private void OnPointChanged()
     {
         if (isLocalPlayer)
         {
-            pointText.text = $"점수 : {newPoint}"; // 클라이언트에게 점수를 업데이트합니다.
+            pointText.text = $"점수 : {GetPoint}"; 
         }
     }
 }
