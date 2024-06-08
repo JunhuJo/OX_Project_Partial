@@ -43,8 +43,7 @@ public class GameManageMent : NetworkBehaviour
   
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
-
-
+   
     //// 클론된 QuestionBox 오브젝트들을 추적하기 위한 리스트
     //private List<GameObject> questionBoxClones = new List<GameObject>();
 
@@ -125,7 +124,7 @@ public class GameManageMent : NetworkBehaviour
             X_Zone.gameObject.SetActive(true);
             O_Zone.gameObject.SetActive(true);
             Wall.gameObject.SetActive(true);
-            QuestionCheck();
+            
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
@@ -190,9 +189,8 @@ public class GameManageMent : NetworkBehaviour
     }
 
 
-    private void QuestionCheck()
+    public void QuestionCheck()
     {
-
         Debug.Log("이제 정답 체크 들어간다~~~");
 
         // 클론된 QuestionBox 리스트를 순회하며 오브젝트와 활성 상태를 확인합니다.
@@ -203,6 +201,7 @@ public class GameManageMent : NetworkBehaviour
                 Question question = questionBox.GetComponent<Question>();
                 if (question != null)
                 {
+                    Debug.Log($"QuestionCurrent: {question.QuestionCurrent}, QustionValue: {QustionValue}");
                     if (question.QuestionCurrent == QustionValue)
                     {
                         question.gameObject.SetActive(false);
@@ -254,10 +253,7 @@ public class GameManageMent : NetworkBehaviour
 
     private void OnPointChanged()
     {
-        if (isLocalPlayer)
-        {
-            pointText.text = $"점수 : {GetPoint}"; 
-        }
+          pointText.text = $"점수 : {GetPoint}"; 
     }
 
 
