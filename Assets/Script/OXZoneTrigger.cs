@@ -4,18 +4,24 @@ using System.Collections;
 
 public class OXZoneTrigger : MonoBehaviour
 {
-    
-
-
     public bool check = false;
 
-    
+
+    private void Update()
+    {
+        CloseOX();
+    }
+
+    void CloseOX()
+    {
+        if (!check)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     //blic void QuestionCheck()
     //
-    //  
-    //  
-    //  }
     //
     //  //for (int i = 0; i < QuestionBox.Length; i++)
     //  //{

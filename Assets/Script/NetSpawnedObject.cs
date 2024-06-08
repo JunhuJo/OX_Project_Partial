@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine.UI;
 using System.Collections;
 using Mirror.Examples.Pong;
+using Unity.VisualScripting;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -16,7 +17,6 @@ public class NetSpawnedObject : NetworkBehaviour
 
     [SerializeField] private GameManageMent gameManageMent;
     [SerializeField] private Text Win_Text;
-    [SerializeField] private Text pointText;
     [SerializeField] private GameObject Wall;
 
     private Transform Transform_Player;
@@ -41,6 +41,11 @@ public class NetSpawnedObject : NetworkBehaviour
     private void Start()
     {
         Animator_Player = GetComponent<Animator>();
+
+        point = gameObject.transform.Find("Point").GetComponent<Text>();
+        point = gameObject.transform.Find("Win_Text").GetComponent<Text>();
+        gameManageMent = gameObject.transform.Find("Game_Manager").GetComponent<GameManageMent>();
+        Wall = gameObject.transform.Find("Wall").GetComponent<GameObject>();
     }
 
     private void Update()
@@ -159,7 +164,6 @@ public class NetSpawnedObject : NetworkBehaviour
             {
                 if (questionBox.activeInHierarchy)
                 {
-
                     Question question = questionBox.GetComponent<Question>();
                     Debug.Log($"문제 값: {question.QuestionCurrent}, QustionValue: {QustionValue}");
                     if (question.QuestionCurrent == QustionValue)
@@ -169,18 +173,12 @@ public class NetSpawnedObject : NetworkBehaviour
                         GetPoint += 1;
 
                         StartCoroutine(CloseQuestionBox());
-                        QustionValue = 0;
-                        gameObject.SetActive(false);
-                        Wall.gameObject.SetActive(false);
                     }
                     else if (question.QuestionCurrent != QustionValue)
                     {
                         question.gameObject.SetActive(false);
                         Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
                         StartCoroutine(CloseQuestionBox());
-                        QustionValue = 0;
-                        gameObject.SetActive(false);
-                        Wall.gameObject.SetActive(false);
                     }
                 }
                 oXZoneTrigger.check = false;
@@ -193,6 +191,8 @@ public class NetSpawnedObject : NetworkBehaviour
     {
         yield return new WaitForSeconds(3);
         Win_Text.text = " ";
+        QustionValue = 0;
+        Wall.gameObject.SetActive(false);
     }
     void pointUpdate()
     {
