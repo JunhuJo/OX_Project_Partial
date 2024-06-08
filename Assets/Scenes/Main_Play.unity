@@ -4553,7 +4553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2b844e25dcfbd04459431e7044f41f1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 42b7648963e8588418d82a422f1ca7b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8131,11 +8131,11 @@ MonoBehaviour:
   QuestionBox:
   - {fileID: 3474878085285995023, guid: bb85cf3cb2e332f4bb88479ee2344d5b, type: 3}
   - {fileID: 6820518473902522010, guid: 67334502c45e46640a1a8be50846997c, type: 3}
+  GetPoint: 0
   setCountDown: 0
   setStartWave: 0
   StartGames: 0
   Wave: 0
-  GetPoint: 0
   QustionValue: 0
 --- !u!1 &8573570118109399655
 GameObject:
