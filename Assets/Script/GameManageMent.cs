@@ -68,7 +68,9 @@ public class GameManageMent : NetworkBehaviour
         VolumeControl();
 
     }
-    
+
+
+
     private void CreateQuestion()
     {
         for (int i = 0; i < QuestionBox.Length; i++)
