@@ -3221,15 +3221,15 @@ MonoBehaviour:
   NavAgent_Player: {fileID: 5004872327021578749}
   Animator_Player: {fileID: 0}
   TextMesh_Nickname: {fileID: 2817909142520163919}
-  point: {fileID: 7391422613406181998, guid: 2ae6811ea0295cd4780524eedb013984, type: 3}
+  Text_Speed: 20
+  SetResult_Win: {fileID: 0}
+  SetResult_Lose: {fileID: 0}
   gameManageMent: {fileID: 4411851853338388494, guid: ff1e43017c7edf547b1507be253911cf, type: 3}
   Win_Text: {fileID: 5783606857241823125, guid: 8d40756c80e62504888b9bf543f23816, type: 3}
-  Wall: {fileID: 658630082160329228, guid: 6cb488ee4f9bf8c40a827155667d4ceb, type: 3}
   _rotationSpeed: 300
   _moveSpeed: 4
   defaultInitialPlanePosition: {x: -7.06, y: 0.61, z: -54.29}
   QustionValue: 0
-  GetPoint: 0
 --- !u!1 &6451038770306713446
 GameObject:
   m_ObjectHideFlags: 0

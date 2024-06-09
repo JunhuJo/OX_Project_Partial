@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.UI;
 using System.Collections;
+using Org.BouncyCastle.Bcpg;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -11,46 +12,42 @@ public class NetSpawnedObject : NetworkBehaviour
     [SerializeField] private NavMeshAgent NavAgent_Player;
     [SerializeField] private Animator Animator_Player;
     [SerializeField] private TextMesh TextMesh_Nickname;
+    
 
-    public Text point;
+    [SerializeField] private float Text_Speed = 5;
+    public GameObject SetResult_Win;
+    public GameObject SetResult_Lose;
+    private bool isWinText = false;
+    private bool isLoseText = false;
+
 
     public GameManageMent gameManageMent;
     public Text Win_Text;
     
-
-    private Transform Transform_Player;
+    //private Transform Transform_Player;
 
     [Header("Movement")]
     [SerializeField] private float _rotationSpeed = 100.0f;
     public float _moveSpeed = 4.0f;
 
+
     [SerializeField] private Vector3 defaultInitialPlanePosition = new Vector3(-9.16621f, 0.036054f, -66.13957f);
     private CinemachineVirtualCamera virtualCamera;
     private string MyObjectName;
 
+
     [SyncVar(hook = nameof(OnNicknameChanged))]
     private string playerNickname;
 
-
-    //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
+    //문제 검증
     public int QustionValue = 0;
-    //public int GetPoint = 0;
     
-
     private void Start()
     {
         Animator_Player = GetComponent<Animator>();
     }
 
-    //private void OnEnable()
-    //{
-    //    point = gameObject.transform.Find("Point").GetComponent<Text>();
-    //    point = gameObject.transform.Find("Win_Text").GetComponent<Text>();
-    //    gameManageMent = gameObject.transform.Find("Game_Manager").GetComponent<GameManageMent>();
-    //}
-
-
-
+    
     private void Update()
     {
         if (CheckIsFocusedOnUpdate() == false)
@@ -70,8 +67,6 @@ public class NetSpawnedObject : NetworkBehaviour
     
     private void CheckIsLocalPlayerOnUpdate()
     {
-        //TextMesh_NetType.text = this.isLocalPlayer ? "로컬" : "로컬 아님";
-
         if (isLocalPlayer == false)
             return;
         
@@ -175,15 +170,17 @@ public class NetSpawnedObject : NetworkBehaviour
                         {
                             question.gameObject.SetActive(false);
                             Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                            //GetPoint += 1;
-
+                            isWinText = true;
                             StartCoroutine(CloseQuestionBox());
+                              
                         }
                         else if (question.QuestionCurrent != QustionValue)
                         {
                             question.gameObject.SetActive(false);
                             Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                            isLoseText = true;
                             StartCoroutine(CloseQuestionBox());
+                            
                         }
                     }
                     oXZoneTrigger.check = false;
@@ -199,6 +196,15 @@ public class NetSpawnedObject : NetworkBehaviour
         yield return new WaitForSeconds(3);
         Win_Text.text = " ";
         QustionValue = 0;
+        if (isWinText)
+        {
+            SetResult_Win.gameObject.SetActive(true);
+        }
+        else if(isLoseText)
+        {
+            SetResult_Lose.gameObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(3);
     }
-    
 }
