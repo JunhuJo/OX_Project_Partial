@@ -119,9 +119,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 9f8834e3807867746845351971c17acb, type: 3}
     m_FontSize: 50
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 100
@@ -131,8 +131,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB300\uD55C\uBBFC\uAD6D\uC758 \uC218\uB3C4\uB294 \uC11C\uC6B8\uC774\uB2E4.\n\nO
-    or X"
+  m_Text: "\uB300\uD55C\uBBFC\uAD6D\uC758 \uC218\uB3C4\uB294 \uC11C\uC6B8\uC774\uB2E4.\n\nYes
+    or No"
 --- !u!1 &3474878086329899373
 GameObject:
   m_ObjectHideFlags: 0

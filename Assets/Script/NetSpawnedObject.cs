@@ -34,7 +34,7 @@ public class NetSpawnedObject : NetworkBehaviour
 
     //문제 정답 검증을 위한 변수 -> 1. 정답, 2.오답
     public int QustionValue = 0;
-    public int GetPoint = 0;
+    //public int GetPoint = 0;
     
 
     private void Start()
@@ -59,7 +59,7 @@ public class NetSpawnedObject : NetworkBehaviour
         }
 
         CheckIsLocalPlayerOnUpdate();
-        pointUpdate();
+        
     }
 
     private bool CheckIsFocusedOnUpdate()
@@ -175,7 +175,7 @@ public class NetSpawnedObject : NetworkBehaviour
                         {
                             question.gameObject.SetActive(false);
                             Win_Text.text = "정답 입니다 ^ ㅇ ^";
-                            GetPoint += 1;
+                            //GetPoint += 1;
 
                             StartCoroutine(CloseQuestionBox());
                         }
@@ -199,10 +199,6 @@ public class NetSpawnedObject : NetworkBehaviour
         yield return new WaitForSeconds(3);
         Win_Text.text = " ";
         QustionValue = 0;
-       
     }
-    void pointUpdate()
-    {
-        point.text = $"점수 : {GetPoint}";
-    }
+    
 }
