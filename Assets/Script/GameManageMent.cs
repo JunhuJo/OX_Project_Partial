@@ -52,13 +52,21 @@ public class GameManageMent : NetworkBehaviour
     private void Start()
     {
         CreateQuestion();
-        RandQuestion(QuestionBox.Length);
+
+        if (isServer)
+        {
+            // 서버에서 랜덤 값을 생성하고 클라이언트에 전송
+            GenerateAndSendRandomValue(QuestionBox.Length);
+        }
+
+
     }
 
     private void Update()
     {
-        StartCountDown();
+       
         
+        StartCountDown();
         
         if (Wave) 
         {
@@ -66,7 +74,6 @@ public class GameManageMent : NetworkBehaviour
         }
 
         VolumeControl();
-
     }
 
 
@@ -152,17 +159,30 @@ public class GameManageMent : NetworkBehaviour
 
 
     [Command]
-    private void RandQuestion(int QuestionBoxLenght)
+    private void CmdRandQuestion()
     {
-        RpcReceiveRandQuestion(QuestionBoxLenght);
+        if (isServer)
+        {
+            GenerateAndSendRandomValue(QuestionBox.Length);
+        }
     }
+
+    private void GenerateAndSendRandomValue(int questionBoxLength)
+    {
+        Rand = Random.Range(0, questionBoxLength+1);
+        Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
+        RpcReceiveRandQuestion(Rand);
+    }
+
 
     [ClientRpc]
     private void RpcReceiveRandQuestion(int QuestionBoxLenght)
     {
         Rand = Random.Range(0, QuestionBoxLenght);
+        Debug.Log($"클라이언트에서 생성된 랜덤값: {Rand}");
     }
 
+   
 
 
     IEnumerator GameWave()

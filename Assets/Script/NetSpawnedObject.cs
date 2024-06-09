@@ -14,7 +14,6 @@ public class NetSpawnedObject : NetworkBehaviour
     [SerializeField] private TextMesh TextMesh_Nickname;
     
 
-    [SerializeField] private float Text_Speed = 5;
     public GameObject SetResult_Win;
     public GameObject SetResult_Lose;
     private bool isWinText = false;
