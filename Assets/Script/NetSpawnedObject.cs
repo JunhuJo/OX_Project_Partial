@@ -20,11 +20,7 @@ public class NetSpawnedObject : NetworkBehaviour
     private bool isWinText = false;
     private bool isLoseText = false;
 
-
-    public GameObject Client_Stop_Btn;
-    public GameObject Server_Stop_Btn;
     public NetworkManager NetworkManager;
-
 
     public GameManageMent gameManageMent;
     public GameObject Login_Window;
@@ -47,10 +43,12 @@ public class NetSpawnedObject : NetworkBehaviour
 
     //문제 검증
     public int QustionValue = 0;
-    
+
     private void Start()
     {
         Animator_Player = GetComponent<Animator>();
+        Debug.Log($"나는 클라인가? : {isClient}");
+        Debug.Log($"나는 서버인가? : {isServer}");
     }
 
     
@@ -175,7 +173,7 @@ public class NetSpawnedObject : NetworkBehaviour
                         if (question.QuestionCurrent == QustionValue)
                         {
                             question.gameObject.SetActive(false);
-                            Win_Text.text = "정답 입니다 ^ ㅇ ^";
+                            Invoke("Win",2);
                             isWinText = true;
                             StartCoroutine(CloseQuestionBox());
                               
@@ -183,7 +181,7 @@ public class NetSpawnedObject : NetworkBehaviour
                         else if (question.QuestionCurrent != QustionValue)
                         {
                             question.gameObject.SetActive(false);
-                            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+                            Invoke("Lose", 2);
                             isLoseText = true;
                             StartCoroutine(CloseQuestionBox());
                             
@@ -195,6 +193,16 @@ public class NetSpawnedObject : NetworkBehaviour
             }
         }
        
+    }
+
+    void Win()
+    {
+        Win_Text.text = "정답 입니다 ^ ㅇ ^";
+    }
+
+    void Lose()
+    {
+        Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
     }
 
     IEnumerator CloseQuestionBox()
@@ -225,11 +233,11 @@ public class NetSpawnedObject : NetworkBehaviour
         yield return new WaitForSeconds(5);
         Exit_Room.text = "";
 
-        if (Client_Stop_Btn.activeInHierarchy)
+        if (isClient)
         {
             NetworkManager.StopClient();
         }
-        else if (Server_Stop_Btn.activeInHierarchy)
+        else if (isServer)
         {
             NetworkManager.StopHost();
         }
