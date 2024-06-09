@@ -43,7 +43,9 @@ public class GameManageMent : NetworkBehaviour
     public bool setStartWave = false;
     public bool StartGames = false;
     public bool Wave = false;
-    private int Rand; //랜덤 문제 값 담을 변수
+
+    [SyncVar]
+    private int Rand = 0; //랜덤 문제 값 담을 변수
 
 
 
@@ -57,22 +59,28 @@ public class GameManageMent : NetworkBehaviour
         if (isServer)
         {
             Rand = Random.Range(0, QuestionBox.Length);
-            Debug.Log($"서버에서 생성된 랜덤 값{Rand}");
-            // 서버에서 랜덤 값을 요청하고 모든 클라이언트에게 전송
+            Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
         }
-        
         if (isLocalPlayer)
         {
-            RpcReceiveRandQuestion(Rand);
+            Debug.Log($"서버 받아온 랜덤값: {Rand}");
         }
     }
 
-    [Command]
-    private void RpcReceiveRandQuestion(int rand)
-    {
-        Rand = rand;
-        Debug.Log($"클라이언트에서 생성된 랜덤값: {Rand}");
-    }
+    //[ClientRpc]
+    //private void RpcRequestRandQuestion()
+    //{
+    //    
+    //    RpcReceiveRandQuestion(rand);
+    //}
+
+
+    //[ClientRpc]
+    //private void RpcReceiveRandQuestion(int rand)
+    //{
+    //    Rand = rand;
+    //    Debug.Log($"서버에서 클라이언트로 받은 랜덤값: {Rand}");
+    //}
 
 
     private void Update()
