@@ -21,10 +21,16 @@ public class NetSpawnedObject : NetworkBehaviour
     private bool isLoseText = false;
 
 
+    public GameObject Client_Stop_Btn;
+    public GameObject Server_Stop_Btn;
+    public NetworkManager NetworkManager;
+
+
     public GameManageMent gameManageMent;
+    public GameObject Login_Window;
     public Text Win_Text;
+    public Text Exit_Room;
     
-    //private Transform Transform_Player;
 
     [Header("Movement")]
     [SerializeField] private float _rotationSpeed = 100.0f;
@@ -199,12 +205,35 @@ public class NetSpawnedObject : NetworkBehaviour
         if (isWinText)
         {
             SetResult_Win.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3);
+            SetResult_Win.gameObject.SetActive(false);
+            StartCoroutine(breakaway());
         }
         else if(isLoseText)
         {
             SetResult_Lose.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3);
+            SetResult_Lose.gameObject.SetActive(false);
+            StartCoroutine(breakaway());
+        }
+    }
+
+    IEnumerator breakaway()
+    {
+        yield return new WaitForSeconds(3);
+        Exit_Room.text = "∞ πÊ¿ª ¿Ã≈ª «’¥œ¥Ÿ!";
+        yield return new WaitForSeconds(5);
+        Exit_Room.text = "";
+
+        if (Client_Stop_Btn.activeInHierarchy)
+        {
+            NetworkManager.StopClient();
+        }
+        else if (Server_Stop_Btn.activeInHierarchy)
+        {
+            NetworkManager.StopHost();
         }
 
-        yield return new WaitForSeconds(3);
+        Login_Window.gameObject.SetActive(true);
     }
 }
