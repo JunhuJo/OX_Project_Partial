@@ -44,9 +44,9 @@ public class GameManageMent : NetworkBehaviour
     public bool StartGames = false;
     public bool Wave = false;
     private int Rand; //랜덤 문제 값 담을 변수
-  
-    
-   
+
+
+
     //// 클론된 QuestionBox 오브젝트들을 추적하기 위한 리스트
     //private List<GameObject> questionBoxClones = new List<GameObject>();
 
@@ -56,11 +56,24 @@ public class GameManageMent : NetworkBehaviour
 
         if (isServer)
         {
-            CmdRandQuestion();
-            //// 서버에서 랜덤 값을 생성하고 클라이언트에 전송
-            //GenerateAndSendRandomValue(QuestionBox.Length);
+            Rand = Random.Range(0, QuestionBox.Length);
+            Debug.Log($"서버에서 생성된 랜덤 값{Rand}");
+            // 서버에서 랜덤 값을 요청하고 모든 클라이언트에게 전송
+        }
+        
+        if (isLocalPlayer)
+        {
+            RpcReceiveRandQuestion(Rand);
         }
     }
+
+    [Command]
+    private void RpcReceiveRandQuestion(int rand)
+    {
+        Rand = rand;
+        Debug.Log($"클라이언트에서 생성된 랜덤값: {Rand}");
+    }
+
 
     private void Update()
     {
@@ -158,31 +171,6 @@ public class GameManageMent : NetworkBehaviour
     }
 
 
-    [Command]
-    private void CmdRandQuestion()
-    {
-        if (isServer)
-        {
-            int rand = Random.Range(0, QuestionBox.Length);
-            RpcReceiveRandQuestion(rand);
-        }
-    }
-   
-
-    //private void GenerateAndSendRandomValue(int questionBoxLength)
-    //{
-    //    Rand = Random.Range(0, questionBoxLength);
-    //    Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
-    //    RpcReceiveRandQuestion(Rand);
-    //}
-
-
-    [ClientRpc]
-    private void RpcReceiveRandQuestion(int rand)
-    {
-        Rand = rand;
-        Debug.Log($"클라이언트에서 생성된 랜덤값: {Rand}");
-    }
 
 
 
