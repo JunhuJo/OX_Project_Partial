@@ -11,6 +11,7 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Button serverLoginButton;
     [SerializeField] private Button clientLoginButton;
     [SerializeField] private NetworkManager networkManager;
+    [SerializeField] private SceneTransition SceneChange;
 
     [Header("InGame_UI")]
     [SerializeField] private GameObject ServerName_Obj;
@@ -46,7 +47,8 @@ public class LoginManager : MonoBehaviour
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server : {serverAddress}";
             networkManager.StartHost();
-            loginWindow.gameObject.SetActive(false);
+            SceneChange.isGame = true;
+            Invoke("Wait", 1.5f);
 
             //서버 입장 후 인게임 처리
             ServerName_Obj.gameObject.SetActive(true);
@@ -65,12 +67,18 @@ public class LoginManager : MonoBehaviour
             networkManager.networkAddress = serverAddress;
             ServerName_Text.text = $"Server_Name : {serverAddress}";
             networkManager.StartClient();
-            loginWindow.gameObject.SetActive(false);
+            SceneChange.isGame = true;
+            Invoke("Wait", 1.5f);
 
-            
             ServerName_Obj.gameObject.SetActive(true);
             InGameClientExitBtn.gameObject.SetActive(true);
         }
+    }
+
+    public void Wait()
+    {
+        loginWindow.gameObject.SetActive(false);
+        SceneChange.isGame = false;
     }
 
     //private void OnLoginButtonClicked()
