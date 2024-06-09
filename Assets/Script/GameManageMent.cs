@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 public class GameManageMent : NetworkBehaviour
 {
@@ -55,11 +56,10 @@ public class GameManageMent : NetworkBehaviour
 
         if (isServer)
         {
-            // 서버에서 랜덤 값을 생성하고 클라이언트에 전송
-            GenerateAndSendRandomValue(QuestionBox.Length);
+            CmdRandQuestion();
+            //// 서버에서 랜덤 값을 생성하고 클라이언트에 전송
+            //GenerateAndSendRandomValue(QuestionBox.Length);
         }
-
-
     }
 
     private void Update()
@@ -163,26 +163,28 @@ public class GameManageMent : NetworkBehaviour
     {
         if (isServer)
         {
-            GenerateAndSendRandomValue(QuestionBox.Length);
+            int rand = Random.Range(0, QuestionBox.Length);
+            RpcReceiveRandQuestion(rand);
         }
     }
+   
 
-    private void GenerateAndSendRandomValue(int questionBoxLength)
-    {
-        Rand = Random.Range(0, questionBoxLength+1);
-        Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
-        RpcReceiveRandQuestion(Rand);
-    }
+    //private void GenerateAndSendRandomValue(int questionBoxLength)
+    //{
+    //    Rand = Random.Range(0, questionBoxLength);
+    //    Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
+    //    RpcReceiveRandQuestion(Rand);
+    //}
 
 
     [ClientRpc]
-    private void RpcReceiveRandQuestion(int QuestionBoxLenght)
+    private void RpcReceiveRandQuestion(int rand)
     {
-        Rand = Random.Range(0, QuestionBoxLenght);
+        Rand = rand;
         Debug.Log($"클라이언트에서 생성된 랜덤값: {Rand}");
     }
 
-   
+
 
 
     IEnumerator GameWave()
