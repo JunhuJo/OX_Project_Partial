@@ -15,22 +15,16 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private StartCount StartCount;
     [SerializeField] private Text CountDown_Text;
     [SerializeField] private Text GameStart_Text;
-    //[SerializeField] private Text pointText;
-
     [SerializeField] private Button GameStartBtn;
 
     [Header("Question")]
     [SerializeField] private Canvas UI_Window;
-    //[SerializeField] private Text Win_Text;
     public GameObject[] QuestionBox;
-    [SerializeField] private NetSpawnedObject player;
     [SerializeField] private OXZoneTrigger O_ZoneTrigger;
     [SerializeField] private OXZoneTrigger X_ZoneTrigger;
 
     [Header("Volume")]
     [SerializeField] private AudioSource Login_BGM;
-    [SerializeField] private AudioSource InGame_BGM;
-    [SerializeField] private AudioSource Effect_Sound;
     [SerializeField] private Slider Volume_Slider;
 
     [Header("PlayerPrefab")]
@@ -193,13 +187,6 @@ public class GameManageMent : NetworkBehaviour
         {
             Login_BGM.volume = Volume_Slider.value;
         }
-        if (InGame_BGM != null)
-        {
-            InGame_BGM.volume = Volume_Slider.value;
-        }
-        if (Effect_Sound != null)
-        {
-            Effect_Sound.volume = Volume_Slider.value;
-        }
+        
     }
 }

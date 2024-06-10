@@ -21,6 +21,5 @@ public class OXZoneTrigger : MonoBehaviour
             
         }
     }
-
 }
 

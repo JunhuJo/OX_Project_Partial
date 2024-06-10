@@ -12,6 +12,7 @@ public class StartCount : MonoBehaviour
     {
         StartCoroutine(Count());
     }
+
     IEnumerator Count()
     {
         if (GameManageMent.StartGames)
