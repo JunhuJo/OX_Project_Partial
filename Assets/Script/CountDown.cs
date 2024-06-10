@@ -21,14 +21,11 @@ public class CountDown : NetworkBehaviour
                 countDownText.text = $"{i + 1}";
                 yield return new WaitForSeconds(1);
                 if (i <= 0) break;
-                //countDownText.text = $"{i + 1}";
-                //Debug.Log($"종료 카운트 : {i + 1}");
-                //yield return new WaitForSeconds(1);
-                //if (i <= 0) break;
+            
             }
             countDownText.text = "Time Over";
             GameManageMent.setCountDown = false;
-            //isCountDown(GameManageMent.setCountDown);
+            
             yield return new WaitForSeconds(1);
             countDownText.text = " ";
         }
