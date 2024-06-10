@@ -1,10 +1,8 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
+
 
 public class GameManageMent : NetworkBehaviour
 {
@@ -48,10 +46,6 @@ public class GameManageMent : NetworkBehaviour
     private int Rand = 0; //랜덤 문제 값 담을 변수
 
 
-
-    //// 클론된 QuestionBox 오브젝트들을 추적하기 위한 리스트
-    //private List<GameObject> questionBoxClones = new List<GameObject>();
-
     private void Start()
     {
         CreateQuestion();
@@ -66,22 +60,6 @@ public class GameManageMent : NetworkBehaviour
             Debug.Log($"서버 받아온 랜덤값: {Rand}");
         }
     }
-
-    //[ClientRpc]
-    //private void RpcRequestRandQuestion()
-    //{
-    //    
-    //    RpcReceiveRandQuestion(rand);
-    //}
-
-
-    //[ClientRpc]
-    //private void RpcReceiveRandQuestion(int rand)
-    //{
-    //    Rand = rand;
-    //    Debug.Log($"서버에서 클라이언트로 받은 랜덤값: {Rand}");
-    //}
-
 
     private void Update()
     {
@@ -177,9 +155,6 @@ public class GameManageMent : NetworkBehaviour
     {
         CountDown.enabled = StartCount;
     }
-
-
-
 
 
 

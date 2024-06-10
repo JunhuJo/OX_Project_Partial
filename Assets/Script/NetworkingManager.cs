@@ -1,8 +1,6 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
-using kcp2k;
-using System.Drawing;
 
 public class NetworkingManager : NetworkManager
 {
