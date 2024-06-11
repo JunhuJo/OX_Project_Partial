@@ -15,7 +15,7 @@ public class StartCount : MonoBehaviour
 
     IEnumerator Count()
     {
-        if (GameManageMent.StartGames)
+        if (GameManageMent.StartGames && !GameManageMent.EndGame)
         {
             for (int i = 4; i < 5; i--)
             {

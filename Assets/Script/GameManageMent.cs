@@ -27,9 +27,6 @@ public class GameManageMent : NetworkBehaviour
     [SerializeField] private AudioSource Login_BGM;
     [SerializeField] private Slider Volume_Slider;
 
-    [Header("PlayerPrefab")]
-    [SerializeField] private GameObject playerprefab;
-
     [Header("Random")]
     [SerializeField] private RandomCreate RandomCreate;
     public bool EndGame = false;
@@ -64,7 +61,6 @@ public class GameManageMent : NetworkBehaviour
         if (isServer)
         {
             Rand = RandomCreate.CreateRand;
-            RandomCreate.enabled = false;
         }
     }
 
@@ -121,10 +117,12 @@ public class GameManageMent : NetworkBehaviour
             X_Zone.gameObject.SetActive(true);
             O_Zone.gameObject.SetActive(true);
             Wall.gameObject.SetActive(true);
+            RandomCreate.enabled = false;
             
         }
         else if (StartGames == false && GameStart_Text.text == "게임 시작!@!")
         {
+            RandomCreate.enabled = true;
             StartCount.enabled = false;
             Wave = true;
         }
@@ -182,4 +180,5 @@ public class GameManageMent : NetworkBehaviour
             Login_BGM.volume = Volume_Slider.value;
         }
     }
+
 }

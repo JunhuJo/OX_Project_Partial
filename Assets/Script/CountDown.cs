@@ -28,6 +28,7 @@ public class CountDown : NetworkBehaviour
             
             yield return new WaitForSeconds(1);
             countDownText.text = " ";
+            
         }
     }
 

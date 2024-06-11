@@ -12,7 +12,6 @@ public class NetSpawnedObject : NetworkBehaviour
     [SerializeField] private Animator Animator_Player;
     [SerializeField] private TextMesh TextMesh_Nickname;
     
-
     public GameObject SetResult_Win;
     public GameObject SetResult_Lose;
     private bool isWinText = false;
@@ -42,6 +41,7 @@ public class NetSpawnedObject : NetworkBehaviour
     //문제 검증
     public int QustionValue = 0;
     public Text Point_Text;
+    public bool NextGame = false;
     [SerializeField] private int Point = 0;
    
 
@@ -174,19 +174,13 @@ public class NetSpawnedObject : NetworkBehaviour
                         if (question.QuestionCurrent == QustionValue)
                         {
                             question.gameObject.SetActive(false);
-                            Invoke("Win",2);
-                            isWinText = true;
-                            gameManageMent.Wave = true;
-                            
-                              
+                            StartCoroutine(Win());
                         }
                         else if (question.QuestionCurrent != QustionValue)
                         {
                             question.gameObject.SetActive(false);
-                            Invoke("Lose", 2);
                             isLoseText = true;
                             StartCoroutine(CloseQuestionBox());
-                            
                         }
                     }
                     oXZoneTrigger.check = false;
@@ -194,40 +188,63 @@ public class NetSpawnedObject : NetworkBehaviour
 
             }
         }
-       
     }
 
-    void Win()
+    IEnumerator Win()
     {
+        yield return new WaitForSeconds(3);
         Win_Text.text = "정답 입니다 ^ ㅇ ^";
+        yield return new WaitForSeconds(3);
+        Win_Text.text = " ";
+        yield return new WaitForSeconds(3);
+        SetResult_Win.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        SetResult_Win.gameObject.SetActive(false);
+        
         if (isLocalPlayer)
         {
             Point += 1;
             Point_Text.text = $"점수 : {Point}";
-            
+            isWinText = true;
+
+            if (gameManageMent.EndGame)
+            {
+                Win_Text.text = "모든 문제를 맞췄습니다!@!";
+                yield return new WaitForSeconds(3);
+                Win_Text.text = " ";
+                yield return new WaitForSeconds(3);
+                Exit_Room.text = "잠시후 방을 이탈합니다";
+                yield return new WaitForSeconds(3);
+
+                if (isClient)
+                {
+                    NetworkManager.StopClient();
+                }
+                else if (isServer)
+                {
+                    NetworkManager.StopHost();
+                }
+
+                Login_Window.gameObject.SetActive(true);
+            }
+            else
+            {
+                gameManageMent.StartGames = true;
+            }
         }
-       
     }
 
-    void Lose()
-    {
-        Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
-    }
 
     IEnumerator CloseQuestionBox()
     {
-        yield return new WaitForSeconds(3);
-        Win_Text.text = " ";
         QustionValue = 0;
-        if (isWinText)
+        
+        if(isLoseText)
         {
-            SetResult_Win.gameObject.SetActive(true);
             yield return new WaitForSeconds(3);
-            SetResult_Win.gameObject.SetActive(false);
-            StartCoroutine(breakaway());
-        }
-        else if(isLoseText)
-        {
+            Win_Text.text = "틀렸습니다 ㅠ ㅇ ㅠ";
+            yield return new WaitForSeconds(3);
+            Win_Text.text = "";
             SetResult_Lose.gameObject.SetActive(true);
             yield return new WaitForSeconds(3);
             SetResult_Lose.gameObject.SetActive(false);
