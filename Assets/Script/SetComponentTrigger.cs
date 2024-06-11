@@ -14,6 +14,7 @@ public class SetComponentTrigger : MonoBehaviour
     [SerializeField] private GameObject Server_Stop_Btn;
     [SerializeField] private NetworkingManager NetworkManager;
     [SerializeField] private GameObject Login_Window;
+    [SerializeField] private Text Point_Text;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +27,7 @@ public class SetComponentTrigger : MonoBehaviour
             other.gameObject.GetComponent<NetSpawnedObject>().NetworkManager = NetworkManager;
             other.gameObject.GetComponent<NetSpawnedObject>().Exit_Room = Exit_Room;
             other.gameObject.GetComponent<NetSpawnedObject>().Login_Window = Login_Window;
+            other.gameObject.GetComponent<NetSpawnedObject>().Point_Text = Point_Text;
         }
     }
 }

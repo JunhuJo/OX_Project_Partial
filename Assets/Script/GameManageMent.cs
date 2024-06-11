@@ -30,11 +30,16 @@ public class GameManageMent : NetworkBehaviour
     [Header("PlayerPrefab")]
     [SerializeField] private GameObject playerprefab;
 
+    [Header("Random")]
+    [SerializeField] private RandomCreate RandomCreate;
+    public bool EndGame = false;
+
 
     public bool setCountDown = false;
     public bool setStartWave = false;
     public bool StartGames = false;
     public bool Wave = false;
+
 
     [SyncVar]
     private int Rand = 0; //랜덤 문제 값 담을 변수
@@ -43,33 +48,25 @@ public class GameManageMent : NetworkBehaviour
     private void Start()
     {
         CreateQuestion();
-
-        if (isServer)
-        {
-            Rand = Random.Range(0, QuestionBox.Length);
-            Debug.Log($"서버에서 생성된 랜덤값: {Rand}");
-        }
-        if (isLocalPlayer)
-        {
-            Debug.Log($"서버 받아온 랜덤값: {Rand}");
-        }
+        RandomCreate.enabled = true;
     }
 
     private void Update()
     {
-       
-        
         StartCountDown();
-        
-        if (Wave) 
-        {
-            StartCoroutine(GameWave());
-        }
-
+        StartCoroutine(GameWave());
         VolumeControl();
+        RandomSelect();
     }
 
-
+    private void RandomSelect()
+    {
+        if (isServer)
+        {
+            Rand = RandomCreate.CreateRand;
+            RandomCreate.enabled = false;
+        }
+    }
 
     private void CreateQuestion()
     {
@@ -77,20 +74,15 @@ public class GameManageMent : NetworkBehaviour
         {
             GameObject questionInstance = Instantiate(QuestionBox[i], UI_Window.transform);
             QuestionBox[i] = questionInstance;
-            //questionBoxClones.Add(questionInstance);
-            
             questionInstance.SetActive(false);
         }
     }
 
     public void OnClick_GameStart()
     {
-      
         GameStartBtn.gameObject.SetActive(false);
         StartGames = true; // 게임 시작을 서버에서 처리합니다.
         ReceiveGameStart(StartGames);
-        //GameStartBtn.gameObject.SetActive(false);
-        //StartGames = true;
     }
 
     [Command]
@@ -151,21 +143,23 @@ public class GameManageMent : NetworkBehaviour
     }
 
 
-
     IEnumerator GameWave()
     {
-        yield return new WaitForSeconds(1);
-        QuestionBox[Rand].SetActive(true);
-        Wave = false;
-        yield return new WaitForSeconds(10);
-        
-        Debug.Log("10초 시작");
-        setCountDown = true;
-        if (isServer)
+        if (Wave)
         {
-            isCountDown(setCountDown);
+            yield return new WaitForSeconds(1);
+            
+            QuestionBox[Rand].SetActive(true);
+            Wave = false;
+            yield return new WaitForSeconds(10);
+
+            Debug.Log("10초 시작");
+            setCountDown = true;
+            if (isServer)
+            {
+                isCountDown(setCountDown);
+            }
         }
-        
     }
 
     [Command]
@@ -187,6 +181,5 @@ public class GameManageMent : NetworkBehaviour
         {
             Login_BGM.volume = Volume_Slider.value;
         }
-        
     }
 }

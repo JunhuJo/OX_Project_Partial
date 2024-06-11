@@ -29,7 +29,6 @@ public class LoginManager : MonoBehaviour
 
     }
 
-
     public void OnClick_StartServer()
     {
         string username = usernameInput.text;
@@ -75,7 +74,6 @@ public class LoginManager : MonoBehaviour
         SceneChange.isGame = false;
     }
 
-    
     public void StopHost()
     {
         networkManager.StopHost();

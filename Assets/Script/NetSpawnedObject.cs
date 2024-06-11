@@ -41,6 +41,9 @@ public class NetSpawnedObject : NetworkBehaviour
 
     //문제 검증
     public int QustionValue = 0;
+    public Text Point_Text;
+    [SerializeField] private int Point = 0;
+   
 
     private void Start()
     {
@@ -173,7 +176,8 @@ public class NetSpawnedObject : NetworkBehaviour
                             question.gameObject.SetActive(false);
                             Invoke("Win",2);
                             isWinText = true;
-                            StartCoroutine(CloseQuestionBox());
+                            gameManageMent.Wave = true;
+                            
                               
                         }
                         else if (question.QuestionCurrent != QustionValue)
@@ -196,6 +200,13 @@ public class NetSpawnedObject : NetworkBehaviour
     void Win()
     {
         Win_Text.text = "정답 입니다 ^ ㅇ ^";
+        if (isLocalPlayer)
+        {
+            Point += 1;
+            Point_Text.text = $"점수 : {Point}";
+            
+        }
+       
     }
 
     void Lose()
