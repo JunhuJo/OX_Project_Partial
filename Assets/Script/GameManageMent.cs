@@ -37,6 +37,9 @@ public class GameManageMent : NetworkBehaviour
     public bool StartGames = false;
     public bool Wave = false;
 
+    private int QuestionCount = 0;
+    public int QuestTemp= 0;
+
 
     [SyncVar]
     private int Rand = 0; //랜덤 문제 값 담을 변수
@@ -72,6 +75,7 @@ public class GameManageMent : NetworkBehaviour
             QuestionBox[i] = questionInstance;
             questionInstance.SetActive(false);
         }
+        QuestTemp = QuestionBox.Length;
     }
 
     public void OnClick_GameStart()
@@ -148,6 +152,7 @@ public class GameManageMent : NetworkBehaviour
             yield return new WaitForSeconds(1);
             
             QuestionBox[Rand].SetActive(true);
+            QuestionCount += 1;
             Wave = false;
             yield return new WaitForSeconds(10);
 

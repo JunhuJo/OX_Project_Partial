@@ -23,6 +23,7 @@ public class NetSpawnedObject : NetworkBehaviour
     public GameObject Login_Window;
     public Text Win_Text;
     public Text Exit_Room;
+    public RandomCreate randomCreate;
     
 
     [Header("Movement")]
@@ -42,7 +43,9 @@ public class NetSpawnedObject : NetworkBehaviour
     public int QustionValue = 0;
     public Text Point_Text;
     public bool NextGame = false;
-    [SerializeField] private int Point = 0;
+    public int Point = 0;
+
+    public Text Questdown;
    
 
     private void Start()
@@ -61,6 +64,7 @@ public class NetSpawnedObject : NetworkBehaviour
         }
 
         CheckIsLocalPlayerOnUpdate();
+        Questdown.text = $"남은 문제 : {gameManageMent.QuestTemp}";
         
     }
 
@@ -196,24 +200,34 @@ public class NetSpawnedObject : NetworkBehaviour
         Win_Text.text = "정답 입니다 ^ ㅇ ^";
         yield return new WaitForSeconds(3);
         Win_Text.text = " ";
-        yield return new WaitForSeconds(3);
-        SetResult_Win.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
-        SetResult_Win.gameObject.SetActive(false);
-        
         if (isLocalPlayer)
         {
             Point += 1;
+            gameManageMent.QuestTemp -= 1;
             Point_Text.text = $"점수 : {Point}";
             isWinText = true;
+            if(randomCreate.QuestionCount == Point)
+            { 
+                gameManageMent.EndGame = true;
+            }
+        }
+        
+        SetResult_Win.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        SetResult_Win.gameObject.SetActive(false);
+        yield return new WaitForSeconds(3);
+       
 
+        if (isLocalPlayer)
+        {
+            
             if (gameManageMent.EndGame)
             {
                 Win_Text.text = "모든 문제를 맞췄습니다!@!";
                 yield return new WaitForSeconds(3);
                 Win_Text.text = " ";
                 yield return new WaitForSeconds(3);
-                Exit_Room.text = "잠시후 방을 이탈합니다";
+                Exit_Room.text = "잠시후 방을 퇴장합니다";
                 yield return new WaitForSeconds(3);
 
                 if (isClient)
@@ -229,6 +243,9 @@ public class NetSpawnedObject : NetworkBehaviour
             }
             else
             {
+                Win_Text.text = " 다음 문제! ";
+                yield return new WaitForSeconds(3);
+                Win_Text.text = " ";
                 gameManageMent.StartGames = true;
             }
         }
@@ -255,7 +272,7 @@ public class NetSpawnedObject : NetworkBehaviour
     IEnumerator breakaway()
     {
         yield return new WaitForSeconds(3);
-        Exit_Room.text = "곧 방을 이탈 합니다!";
+        Exit_Room.text = "곧 방에서 퇴장 합니다!";
         yield return new WaitForSeconds(5);
         Exit_Room.text = "";
 

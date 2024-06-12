@@ -79,7 +79,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC5EC\uB984\uC740 \uC601\uC5B4\uB85C Summer\n\nYes or No"
+  m_Text: "\uCEF4\uD4E8\uD130\uC758 \uB450\uB1CC\uB294 CPU\uC774\uB2E4.\n\nYes or
+    No"
 --- !u!1 &6820518473902522010
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +92,7 @@ GameObject:
   - component: {fileID: 6820518473902522009}
   - component: {fileID: 6820518473902522008}
   m_Layer: 5
-  m_Name: Question03
+  m_Name: Question04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

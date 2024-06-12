@@ -1,4 +1,5 @@
 
+using Org.BouncyCastle.Asn1.Cms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,9 @@ public class SetComponentTrigger : MonoBehaviour
     [SerializeField] private NetworkingManager NetworkManager;
     [SerializeField] private GameObject Login_Window;
     [SerializeField] private Text Point_Text;
+    [SerializeField] private RandomCreate RandomCreate;
+    [SerializeField] private Text Questdown;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +32,8 @@ public class SetComponentTrigger : MonoBehaviour
             other.gameObject.GetComponent<NetSpawnedObject>().Exit_Room = Exit_Room;
             other.gameObject.GetComponent<NetSpawnedObject>().Login_Window = Login_Window;
             other.gameObject.GetComponent<NetSpawnedObject>().Point_Text = Point_Text;
+            other.gameObject.GetComponent<NetSpawnedObject>().randomCreate = RandomCreate;
+            other.gameObject.GetComponent<NetSpawnedObject>().Questdown = Questdown;
         }
     }
 }
